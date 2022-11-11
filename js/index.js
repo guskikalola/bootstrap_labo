@@ -40,6 +40,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 			unekoAkta.appendChild(elem);
 			if(child.classList.contains("tituluPonencia")) {
 				elem.classList.add("aktaTitulua");
+				elem.innerText = child.innerText.replace(/(\[PDF\])/g,"");
 				unekoAkta.addEventListener("click", () => {
 					let indiz = child.attributes["onclick"].nodeValue.replace("amosarFicha(","").replace(")","");
 					console.log(indiz);
@@ -47,9 +48,10 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 					while (num.length < 4)
 					num = "0" + num;
 					var urlFicha = "https://aenui.org/actas/fichas/" + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
-					window.open(urlFicha)
+					
+					let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=0,height=0,left=-1000,top=-1000`
+					window.open(urlFicha,elem.innerText,params);
 				});
-				elem.innerText = child.innerText.replace(/(\[PDF\])/g,"");
 			} else {
 				elem.classList.add("aktaEgileak");
 			}
