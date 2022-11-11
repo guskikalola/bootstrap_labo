@@ -29,7 +29,12 @@ function kargatuScript(scripts_s) {
 }
 
 function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
+	// emaitzenContainer guk sortutako div-a da, emaitzak gordetzeko
 	// emaitzenLista bilaketa egitean agertzen den div(id:llistaResultaos) da
+	
+	// emaitzen lista hutsik jarri
+	emaitzenContainer.innerHTML = "";
+	
 	let aktak = [];
 	let unekoAkta = document.createElement("div");
 	for (let child of emaitzenLista.childNodes) {
@@ -103,12 +108,13 @@ function txertatu() {
 				if (mutation.addedNodes.length > 0) {
 					let emaitzenDiv = mutation.addedNodes.item(0);
 					emaitzaBerriakKudeatu(emaitzenDiv,emaitzenListaBerria);
+				} else {
+					emaitzaBerriakKudeatu(document.createElement("div"),emaitzenListaBerria);
 				}
 			}
 		}
 	});
 	observer.observe(emaitzenLista, observerConfig);
-
 
 	// Emaitzen lista berria txertatu dokumentuan
 	document.body.appendChild(emaitzenListaBerria);
