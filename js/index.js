@@ -20,12 +20,97 @@ function kargatuScript(scripts_s) {
 					elem.innerHTML = js;
 					elem.id = src;
 					document.head.appendChild(elem);
-					if(index == (i-1)) {
+					if (index == (i - 1)) {
 						eval("inicializar()");
 					}
 				})
 		});
 	})
+}
+
+function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
+	// emaitzenLista bilaketa egitean agertzen den div(id:llistaResultaos) da
+	let aktak = [];
+	let unekoAkta = document.createElement("div");
+	for (let child of emaitzenLista.childNodes) {
+		if (child.classList.contains("tituluPonencia") || child.classList.contains("autores")) {
+			let elem = document.createElement("div");
+			elem.classList.add("p-2");
+			elem.innerHTML = child.innerHTML;
+			unekoAkta.appendChild(elem);
+			if(child.classList.contains("tituluPonencia")) {
+				elem.classList.add("aktaTitulua");
+				unekoAkta.addEventListener("click", () => {
+					let indiz = child.attributes["onclick"].nodeValue.replace("amosarFicha(","").replace(")","");
+					console.log(indiz);
+					var num = "" + indiz;
+					while (num.length < 4)
+					num = "0" + num;
+					var urlFicha = "https://aenui.org/actas/fichas/" + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
+					window.open(urlFicha)
+				});
+				elem.innerText = child.innerText.replace(/(\[PDF\])/g,"");
+			} else {
+				elem.classList.add("aktaEgileak");
+			}
+		}
+		if (unekoAkta.childNodes.length >= 2) {
+			// akta bat bere titulu eta autoreekin osatu dugu, akta gorde
+			aktak.push(unekoAkta);
+			unekoAkta = document.createElement("div");
+		}
+	}
+
+	// Akta bakoitzari estiloa eman
+	for(let akta of aktak) {
+		akta.classList.add("rounded","bg-secondary","p-2","m-2","text-break");
+		akta.setAttribute("role","button");
+		emaitzenContainer.appendChild(akta);
+	}
+
+}
+
+function izkutatu(elementua) {
+	let wrapper = document.createElement("div");
+	wrapper.style = "display:none;";
+	elementua.parentNode.insertBefore(wrapper,elementua);
+	wrapper.appendChild(elementua);
+}
+
+function txertatu() {
+	// Edizioen lista
+	let edizioak = document.querySelector("#botonesEdiciones").childNodes;
+
+	// Izkutatu edizioak
+	izkutatu(document.querySelector("#botonesEdiciones"));
+	izkutatu(document.querySelector(".botonEdiciones"));
+
+	// Emaitzak kudeatu
+	let emaitzenLista = document.querySelector("#resultaos");
+	// Emaitzen lista izkutatu
+	izkutatu(emaitzenLista);
+	// Emaitzen lista berria sortu
+	let emaitzenListaBerria = document.createElement("div");
+	emaitzenListaBerria.id = "emaitzenLista";
+	emaitzenListaBerria.classList.add("container-fluid","d-flex","flex-column")
+	// Emaitza berriak gehitzen direnean detektatu
+	let observerConfig = { attributes: false, childList: true, subtree: false };
+	let observer = new MutationObserver((mutationList, observer) => {
+		for (const mutation of mutationList) {
+			if (mutation.type === 'childList') { // elementu bat gehitu edo ezabatu da
+				if (mutation.addedNodes.length > 0) {
+					let emaitzenDiv = mutation.addedNodes.item(0);
+					emaitzaBerriakKudeatu(emaitzenDiv,emaitzenListaBerria);
+				}
+			}
+		}
+	});
+	observer.observe(emaitzenLista, observerConfig);
+
+
+	// Emaitzen lista berria txertatu dokumentuan
+	document.body.appendChild(emaitzenListaBerria);
+
 }
 
 fetch(PROXY + WEBGUNEA_U)
@@ -47,10 +132,10 @@ fetch(PROXY + WEBGUNEA_U)
 		let scripts_s = html.querySelectorAll("script");
 		let styles_s = html.querySelectorAll("link");
 
-		for (let style of styles_s) {
-			document.head.innerHTML += style.outerHTML;
-		}
-
+		// for (let style of styles_s) {
+		// 	document.head.innerHTML += style.outerHTML;
+		// }
 
 		kargatuScript(scripts_s);
+		txertatu();
 	});
