@@ -24,7 +24,9 @@ function kargatuScript(scripts_s) {
 					elem.id = src;
 					document.head.appendChild(elem);
 					if (index == (i - 1)) {
-						eval("inicializar()");
+						setTimeout(() => {
+							eval("inicializar()");
+						}, 500);
 					}
 				})
 		});
@@ -66,7 +68,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 						num = "0" + num;
 					var urlFicha = `https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
 
-					Mezua.sendMezua("MKWINDOW",urlFicha);
+					Mezua.sendMezua("MKWINDOW", urlFicha);
 				});
 			} else {
 				// Elementua egileak bada gehitu klasea hori adierazteko
@@ -81,7 +83,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 		}
 	}
 
-	for(let akta of aktak) {
+	for (let akta of aktak) {
 		emaitzenContainer.appendChild(akta);
 	}
 
@@ -153,8 +155,13 @@ function estiloaEman() {
 		akta.setAttribute("role", "button");
 	}
 
-	document.querySelector("#emaitzenLista").classList.add("container-fluid", "d-flex", "flex-column")
+	document.querySelector("#emaitzenLista").classList.add("d-flex", "flex-column")
 
+	document.querySelector("body").classList.add("container");
+
+	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100");
+	document.querySelector("#caxaBuscar").removeAttribute("size");
+	document.querySelector("#caxaBuscar").classList.add("w-100")
 }
 
 fetch(PROXY + BASE + WEBGUNEA_U)
@@ -171,6 +178,7 @@ fetch(PROXY + BASE + WEBGUNEA_U)
 		document.head.innerHTML += `<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/bilatu.css">
 	`;
 
 		let scripts_s = html.querySelectorAll("script");
@@ -189,5 +197,5 @@ fetch(PROXY + BASE + WEBGUNEA_U)
 	});
 
 window.addEventListener("load", () => {
-	Mezua.sendMezua("LOADED","");
+	Mezua.sendMezua("LOADED", "");
 });
