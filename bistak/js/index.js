@@ -1,9 +1,5 @@
 import Mezua from "./mezuak.js";
-
-let bistak = {
-    "bilatu": "bilatu.html",
-    "hasiera": "hasiera.html"
-}
+import bistak from "./bistak.js";
 
 /**
  * @type {HTMLIFrameElement}
