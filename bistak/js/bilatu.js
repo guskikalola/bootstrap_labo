@@ -1,10 +1,11 @@
 import Mezua from "./mezuak.js";
 
-const PROXY = "http://ikasten.io:3000/";
+const PROXY = "https://guskikalola.eus/cors/";
 const EDICIONES_U = "https://aenui.org/actas/js/ediciones.js";
 const ARTICULOS_U = "https://aenui.org/actas/js/articulos.js";
 const RESUMENES_U = "https://aenui.org/actas/js/resumenes.js";
-const WEBGUNEA_U = "https://aenui.org/actas/indice_i.html";
+const BASE = "aenui.org/actas";
+const WEBGUNEA_U = "/indice_i.html"
 
 function kargatuScript(scripts_s) {
 	new Promise((res, rej) => {
@@ -14,10 +15,10 @@ function kargatuScript(scripts_s) {
 			fetch(src)
 				.then(r => r.text())
 				.then(js => {
-					js = js.replace(/(js\/)/g, `${PROXY}https://aenui.org/actas/js/`);
-					js = js.replace(/(img\/)/g, `${PROXY}https://aenui.org/actas/img/`);
-					js = js.replace(/(pdf\/)/g, `${PROXY}https://aenui.org/actas/pdf/`);
-					js = js.replace(/(fichas\/)/g, `${PROXY}https://aenui.org/actas/fichas/`);
+					js = js.replace(/(js\/)/g, `${PROXY}${BASE}/js/`);
+					js = js.replace(/(img\/)/g, `${PROXY}${BASE}/img/`);
+					js = js.replace(/(pdf\/)/g, `${PROXY}${BASE}/pdf/`);
+					js = js.replace(/(fichas\/)/g, `${PROXY}${BASE}/fichas/`);
 					let elem = document.createElement("script");
 					elem.innerHTML = js;
 					elem.id = src;
@@ -63,7 +64,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 					var num = "" + indiz;
 					while (num.length < 4)
 						num = "0" + num;
-					var urlFicha = "https://aenui.org/actas/fichas/" + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
+					var urlFicha = `https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
 
 					Mezua.sendMezua("MKWINDOW",urlFicha);
 				});
@@ -156,11 +157,11 @@ function estiloaEman() {
 
 }
 
-fetch(PROXY + WEBGUNEA_U)
+fetch(PROXY + BASE + WEBGUNEA_U)
 	.then(r => r.text())
 	.then(raw_html => {
-		raw_html = raw_html.replace(/(src=")/g, `src="${PROXY}https://aenui.org/actas/`);
-		raw_html = raw_html.replace(/(href=")/g, `href="${PROXY}https://aenui.org/actas/`);
+		raw_html = raw_html.replace(/(src=")/g, `src="${PROXY}${BASE}/`);
+		raw_html = raw_html.replace(/(href=")/g, `href="${PROXY}${BASE}/`);
 
 		let parser = new DOMParser();
 		let html = parser.parseFromString(raw_html, "text/html");
