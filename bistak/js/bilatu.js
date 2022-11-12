@@ -25,6 +25,7 @@ function kargatuScript(scripts_s) {
 					document.head.appendChild(elem);
 					if (index == (i - 1)) {
 						setTimeout(() => {
+							res();
 							eval("inicializar()");
 						}, 500);
 					}
@@ -66,7 +67,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 					var num = "" + indiz;
 					while (num.length < 4)
 						num = "0" + num;
-					var urlFicha = `https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
+					var urlFicha = `bistak/informazioa.html?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
 
 					Mezua.sendMezua("MKWINDOW", urlFicha);
 				});
