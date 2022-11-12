@@ -1,3 +1,5 @@
+import Mezua from "./mezuak.js";
+
 const PROXY = "http://ikasten.io:3000/";
 const EDICIONES_U = "https://aenui.org/actas/js/ediciones.js";
 const ARTICULOS_U = "https://aenui.org/actas/js/articulos.js";
@@ -31,60 +33,70 @@ function kargatuScript(scripts_s) {
 function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 	// emaitzenContainer guk sortutako div-a da, emaitzak gordetzeko
 	// emaitzenLista bilaketa egitean agertzen den div(id:llistaResultaos) da
-	
+
 	// emaitzen lista hutsik jarri
 	emaitzenContainer.innerHTML = "";
-	
+
 	let aktak = [];
 	let unekoAkta = document.createElement("div");
+	unekoAkta.classList.add("akta")
+	// Korritu emaitzen elementu bakoitza eta (titulo,autor) bikoteetan pilatu
 	for (let child of emaitzenLista.childNodes) {
+		// Soilik hartu titulu eta egileak
 		if (child.classList.contains("tituluPonencia") || child.classList.contains("autores")) {
+
+			// Sortu elementuaren edukia gordetzeko div
 			let elem = document.createElement("div");
-			elem.classList.add("p-2");
 			elem.innerHTML = child.innerHTML;
+
+			// Uneko aktari gehitu elementua
 			unekoAkta.appendChild(elem);
-			if(child.classList.contains("tituluPonencia")) {
-				elem.classList.add("aktaTitulua");
-				elem.innerText = child.innerText.replace(/(\[PDF\])/g,"");
+
+			if (child.classList.contains("tituluPonencia")) {
+				// Elementua titulua bada gehitu klasea hori adierazteko
+				elem.classList.add("akta-titulua");
+				elem.innerText = child.innerText.replace(/(\[PDF\])/g, ""); // Ezabatu [PDF]
+
+				// Aktaren gainean klikatzean tituluan zegoen onclick funtzio berdina egin baino lehio berri bat irikita
 				unekoAkta.addEventListener("click", () => {
-					let indiz = child.attributes["onclick"].nodeValue.replace("amosarFicha(","").replace(")","");
-					console.log(indiz);
+					let indiz = child.attributes["onclick"].nodeValue.replace("amosarFicha(", "").replace(")", "");
 					var num = "" + indiz;
 					while (num.length < 4)
-					num = "0" + num;
+						num = "0" + num;
 					var urlFicha = "https://aenui.org/actas/fichas/" + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
-					
-					let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=0,height=0,left=-1000,top=-1000`
-					window.open(urlFicha,elem.innerText,params);
+
+					Mezua.sendMezua("MKWINDOW",urlFicha);
 				});
 			} else {
-				elem.classList.add("aktaEgileak");
+				// Elementua egileak bada gehitu klasea hori adierazteko
+				elem.classList.add("akta-egileak");
 			}
 		}
 		if (unekoAkta.childNodes.length >= 2) {
 			// akta bat bere titulu eta autoreekin osatu dugu, akta gorde
 			aktak.push(unekoAkta);
 			unekoAkta = document.createElement("div");
+			unekoAkta.classList.add("akta");
 		}
 	}
 
-	// Akta bakoitzari estiloa eman
 	for(let akta of aktak) {
-		akta.classList.add("rounded","bg-secondary","p-2","m-2","text-break");
-		akta.setAttribute("role","button");
 		emaitzenContainer.appendChild(akta);
 	}
+
+	estiloaEman();
 
 }
 
 function izkutatu(elementua) {
 	let wrapper = document.createElement("div");
 	wrapper.style = "display:none;";
-	elementua.parentNode.insertBefore(wrapper,elementua);
+	elementua.parentNode.insertBefore(wrapper, elementua);
 	wrapper.appendChild(elementua);
 }
 
 function txertatu() {
+	/* EDIZIOAK */
 	// Edizioen lista
 	let edizioak = document.querySelector("#botonesEdiciones").childNodes;
 
@@ -92,6 +104,7 @@ function txertatu() {
 	izkutatu(document.querySelector("#botonesEdiciones"));
 	izkutatu(document.querySelector(".botonEdiciones"));
 
+	/* EMAITZAK */
 	// Emaitzak kudeatu
 	let emaitzenLista = document.querySelector("#resultaos");
 	// Emaitzen lista izkutatu
@@ -99,7 +112,6 @@ function txertatu() {
 	// Emaitzen lista berria sortu
 	let emaitzenListaBerria = document.createElement("div");
 	emaitzenListaBerria.id = "emaitzenLista";
-	emaitzenListaBerria.classList.add("container-fluid","d-flex","flex-column")
 	// Emaitza berriak gehitzen direnean detektatu
 	let observerConfig = { attributes: false, childList: true, subtree: false };
 	let observer = new MutationObserver((mutationList, observer) => {
@@ -107,17 +119,40 @@ function txertatu() {
 			if (mutation.type === 'childList') { // elementu bat gehitu edo ezabatu da
 				if (mutation.addedNodes.length > 0) {
 					let emaitzenDiv = mutation.addedNodes.item(0);
-					emaitzaBerriakKudeatu(emaitzenDiv,emaitzenListaBerria);
+					emaitzaBerriakKudeatu(emaitzenDiv, emaitzenListaBerria);
 				} else {
-					emaitzaBerriakKudeatu(document.createElement("div"),emaitzenListaBerria);
+					emaitzaBerriakKudeatu(document.createElement("div"), emaitzenListaBerria);
 				}
 			}
 		}
 	});
 	observer.observe(emaitzenLista, observerConfig);
 
+	/* BILAKETA INPUT-A */
+	let bilaketaInput = document.querySelector("caxaBuscar");
+
+
+	/* ELEMENTUAK GEHITU DOKUMENTURA */
 	// Emaitzen lista berria txertatu dokumentuan
 	document.body.appendChild(emaitzenListaBerria);
+
+}
+
+function estiloaEman() {
+	for (let elem of document.querySelectorAll(".akta-titulua")) {
+		elem.classList.add("p-2"); // Eman banaketa pixka bat irakurtzeko errezago
+	}
+	for (let elem of document.querySelectorAll(".akta-egileak")) {
+		elem.classList.add("p-2"); // Eman banaketa pixka bat irakurtzeko errezago
+	}
+
+	// Akta bakoitzari estiloa eman
+	for (let akta of document.querySelectorAll(".akta")) {
+		akta.classList.add("rounded", "bg-secondary", "p-2", "m-2", "text-break");
+		akta.setAttribute("role", "button");
+	}
+
+	document.querySelector("#emaitzenLista").classList.add("container-fluid", "d-flex", "flex-column")
 
 }
 
@@ -138,12 +173,20 @@ fetch(PROXY + WEBGUNEA_U)
 	`;
 
 		let scripts_s = html.querySelectorAll("script");
-		let styles_s = html.querySelectorAll("link");
+		let link_s = html.querySelectorAll("link");
 
-		// for (let style of styles_s) {
-		// 	document.head.innerHTML += style.outerHTML;
-		// }
+		// Estiloak ez kargatu, guk emango diogulako estiloa
+		for (let link of link_s) {
+			if (!link.relList.contains("stylesheet"))
+				document.querySelector("head").appendChild(link)
+		}
 
 		kargatuScript(scripts_s);
 		txertatu();
+
+		estiloaEman();
 	});
+
+window.addEventListener("load", () => {
+	Mezua.sendMezua("LOADED","");
+});
