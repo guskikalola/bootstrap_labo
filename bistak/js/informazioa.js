@@ -26,6 +26,18 @@ function kargatuScript(scripts_s) {
     })
 }
 
+function izkutatu(elementua) {
+	let wrapper = document.createElement("div");
+	wrapper.style = "display:none;";
+	elementua.parentNode.insertBefore(wrapper, elementua);
+	wrapper.appendChild(elementua);
+}
+
+function estiloaEman() {
+    izkutatu(document.querySelector(".botoneraSolapes"))
+
+}
+
 
 function main(url) {
     console.log(PROXY + url)
@@ -55,13 +67,14 @@ function main(url) {
             let link_s = html.querySelectorAll("link");
 
             for (let link of link_s) {
-                document.querySelector("head").appendChild(link)
+                // if (!link.relList.contains("stylesheet"))
+                    document.querySelector("head").appendChild(link)
             }
 
             kargatuScript(scripts_s);
             //txertatu();
 
-            //estiloaEman();
+            estiloaEman();
         });
 }
 
