@@ -7,6 +7,61 @@ const RESUMENES_U = "https://aenui.org/actas/js/resumenes.js";
 const BASE = "aenui.org/actas";
 const WEBGUNEA_U = "/indice_i.html"
 
+function getLlistaResultaosTestuV2(str, estrictu) {
+	// document.querySelector("#filtroak");
+	let filtroak = {
+		"izenburua": document.getElementById("filtroIzenburua").checked,
+		"egile": document.getElementById("filtroEgilea").checked,
+		"hitz_gakoa": document.getElementById("filtroHitzgakoak").checked,
+		"filtro_guztiak": document.getElementById("filtroGuztiak").checked
+	}
+
+	var llista = new Set();
+
+	str = convertirPaBusqueda(str);
+
+	for (var i = 0; i < temasBusqueda.length; i++) {
+		let sartu = false;
+
+		if ((filtroak.filtro_guztiak || filtroak.izenburua) && articulos[i][2].toLowerCase().indexOf(str) != -1) {
+			sartu = true;
+		} else if ((filtroak.filtro_guztiak ||filtroak.egile) && articulos[i][3].toLowerCase().indexOf(str) != -1) {
+			sartu = true;
+		} else if (filtroak.filtro_guztiak ||filtroak.hitz_gakoa) {
+			let hitzGakoPosibleGuztiak = articulos[i].join("").toLowerCase();
+			let hitzGakoak = str.split(" ");
+			let guztiakDitu = true;
+			for(let hitzGakoa of hitzGakoak) {
+				if(hitzGakoPosibleGuztiak.indexOf(hitzGakoa) == -1) {
+					guztiakDitu = false;
+					break;
+				}
+			}
+			sartu = guztiakDitu;
+		}
+
+		if (sartu) {
+			llista.add(i);
+		}
+	}
+	return Array.from(llista);
+}
+
+function amosarResultaosPorTestuV2(str, estrictu) {
+	esconderAyuda();
+	if (str.length < 3) {
+		ponerHtmlPorId("contaorResultaos", "");
+		ponerHtmlPorId("resultaos", "");
+		return;
+	} else {
+		var llista = getLlistaResultaosTestuV2(str, estrictu);
+		ponerHtmlPorId("resultaos", HTMLResultau(llista));
+		// Esto por si llamen esta función dende programa, y non por haber tecleáo
+		if (document.getElementById("caxaBuscar").value == "")
+			document.getElementById("caxaBuscar").value = str;
+	}
+}
+
 function kargatuScript(scripts_s) {
 	new Promise((res, rej) => {
 		let i = scripts_s.length;
@@ -136,17 +191,82 @@ function txertatu() {
 	let logoa = document.querySelector("#alrodiu");
 	logoa.href = "";
 	logoa.addEventListener("click", () => {
-		Mezua.sendMezua("CHVIEW","hasiera");
-	}) 
+		Mezua.sendMezua("CHVIEW", "hasiera");
+	});
 
 	/* BILAKETA INPUT-A */
 	let bilaketaInput = document.querySelector("#caxaBuscar");
+	bilaketaInput.onkeyup = "";
+	bilaketaInput.addEventListener("keyup", (e) => {
+		let target = e.target;
+		let value = target.value;
+		amosarResultaosPorTestuV2(value, false);
+	})
 
+	/* BILAKETA FILTROAK */
+	let containerFiltroak = document.createElement("div");
+	let filtroEgilea = document.createElement("input"), egileaLabel = document.createElement("label");
+	let filtroIzenburua = document.createElement("input"), izenburuaLabel = document.createElement("label");
+	let filtroHitzgakoak = document.createElement("input"), hitzgakoakLabel = document.createElement("label");
+	let filtroGuztiak = document.createElement("input"), guztiakLabel = document.createElement("label");
+	
+	containerFiltroak.id = "containerFiltroak";
+	filtroEgilea.id = "filtroEgilea", egileaLabel.id ="egileaLabel";
+	filtroGuztiak.id = "filtroGuztiak", guztiakLabel.id ="guztiakLabel";
+	filtroHitzgakoak.id = "filtroHitzgakoak", hitzgakoakLabel.id = "hitzgakoakLabel";
+	filtroIzenburua.id = "filtroIzenburua", izenburuaLabel.id="izenburuaLabel";
+	
+	egileaLabel.htmlFor = "filtroEgilea"; egileaLabel.innerText = "Egilea";
+	izenburuaLabel.htmlFor = "filtroIzenburua"; izenburuaLabel.innerText = "Izenburua";
+	hitzgakoakLabel.htmlFor = "filtroHitzgakoak"; hitzgakoakLabel.innerText = "Hitz Gakoak";
+	guztiakLabel.htmlFor = "filtroGuztiak"; guztiakLabel.innerText = "Guztiak";
+
+	filtroEgilea.type = "checkbox";
+	filtroGuztiak.type = "checkbox";
+	filtroHitzgakoak.type = "checkbox";
+	filtroIzenburua.type = "checkbox";
+	
+	filtroEgilea.addEventListener("click",filtroKudeatu);
+	filtroGuztiak.addEventListener("click",filtroKudeatu);
+	filtroHitzgakoak.addEventListener("click",filtroKudeatu);
+	filtroIzenburua.addEventListener("click",filtroKudeatu);
+	
+	containerFiltroak.appendChild(filtroIzenburua);
+	containerFiltroak.appendChild(izenburuaLabel);
+	containerFiltroak.appendChild(filtroEgilea);
+	containerFiltroak.appendChild(egileaLabel);
+	containerFiltroak.appendChild(filtroHitzgakoak);
+	containerFiltroak.appendChild(hitzgakoakLabel);
+	containerFiltroak.appendChild(filtroGuztiak);
+	containerFiltroak.appendChild(guztiakLabel);
+
+	filtroGuztiak.checked = true;
+
+	function filtroKudeatu(e) {
+		let target = e.target;
+		if(target.id != "filtroGuztiak") {
+			if(target.checked) {
+				filtroGuztiak.checked = false;
+			} else {
+				if(!filtroEgilea.checked && !filtroIzenburua.checked && !filtroHitzgakoak.checked) {
+					filtroGuztiak.checked = true;
+				}
+			}
+		} else {
+			filtroGuztiak.checked = true;
+			filtroEgilea.checked = false;
+			filtroIzenburua.checked = false;
+			filtroHitzgakoak.checked = false;
+		}
+
+		amosarResultaosPorTestuV2(bilaketaInput.value,false);
+	}
 
 	/* ELEMENTUAK GEHITU DOKUMENTURA */
+	// Bilaketa filtroak gehitu
+	document.body.appendChild(containerFiltroak);
 	// Emaitzen lista berria txertatu dokumentuan
 	document.body.appendChild(emaitzenListaBerria);
-
 }
 
 function estiloaEman() {
@@ -169,7 +289,14 @@ function estiloaEman() {
 
 	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100");
 	document.querySelector("#caxaBuscar").removeAttribute("size");
-	document.querySelector("#caxaBuscar").classList.add("w-100")
+	document.querySelector("#caxaBuscar").classList.add("w-100");
+
+	/* FILTROAK */
+	document.querySelector("#containerFiltroak").classList.add("form-switch","d-flex","flex-column","m-2");
+	document.querySelector("#filtroGuztiak").classList.add("form-check-input");
+	document.querySelector("#filtroEgilea").classList.add("form-check-input");
+	document.querySelector("#filtroIzenburua").classList.add("form-check-input");
+	document.querySelector("#filtroHitzgakoak").classList.add("form-check-input");
 }
 
 fetch(PROXY + BASE + WEBGUNEA_U)
