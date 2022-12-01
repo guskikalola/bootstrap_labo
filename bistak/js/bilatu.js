@@ -132,8 +132,15 @@ function txertatu() {
 	});
 	observer.observe(emaitzenLista, observerConfig);
 
+	/* LOGOA */
+	let logoa = document.querySelector("#alrodiu");
+	logoa.href = "";
+	logoa.addEventListener("click", () => {
+		Mezua.sendMezua("CHVIEW","hasiera");
+	}) 
+
 	/* BILAKETA INPUT-A */
-	let bilaketaInput = document.querySelector("caxaBuscar");
+	let bilaketaInput = document.querySelector("#caxaBuscar");
 
 
 	/* ELEMENTUAK GEHITU DOKUMENTURA */
