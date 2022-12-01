@@ -152,17 +152,45 @@ function estiloaEman() {
 
 	// Akta bakoitzari estiloa eman
 	for (let akta of document.querySelectorAll(".akta")) {
-		akta.classList.add("rounded", "bg-secondary", "p-2", "m-2", "text-break");
+		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark");
 		akta.setAttribute("role", "button");
 	}
 
-	document.querySelector("#emaitzenLista").classList.add("d-flex", "flex-column")
+	document.querySelector("#emaitzenLista").classList.add("d-flex", "flex-column", "bg-white")
 
 	document.querySelector("body").classList.add("container");
 
-	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100");
+	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100", "mt-3", "bg-white");
 	document.querySelector("#caxaBuscar").removeAttribute("size");
 	document.querySelector("#caxaBuscar").classList.add("w-100")
+
+	/////////////////////////////////////////////////////////////////////////
+	//Xabierrek egindako aldaketak
+	/////////////////////////////////////////////////////////////////////////
+	
+	// gorputza div batean sartu panela osatzeko //PROBLEMAS
+	/*let gorputza = document.querySelector("body").innerHTML;
+	gorputza = "<div class='bg-white vh-90 m-3'>"+gorputza+"</div>";
+	document.querySelector("body").innerHTML = gorputza;*/
+
+	// textua <p>-etan sartu eta font-size 6 jarri
+	let textua = document.querySelector(".aclaracionPeque").innerHTML;
+	textua = "<p class='fs-6 text'>"+textua+"</p>"
+	document.querySelector(".aclaracionPeque").innerHTML = textua;
+
+	document.querySelector("#caxaBuscar").classList.add("mt-1","mb-2");
+	document.querySelector(".akta-titulua").classList.add("fs-6", "text");
+	document.querySelector(".akta-egileak").classList.add("fs-6", "text");
+
+	//document.querySelector("#buscaor").classList.add("bg-white");
+	document.querySelector("#emaitzenLista").classList.add("bg-white");
+	
+
+	/////////////////////////////////////////////////////////////////////////
+	//Xabierrek egindako aldaketak
+	/////////////////////////////////////////////////////////////////////////
+
+
 }
 
 fetch(PROXY + BASE + WEBGUNEA_U)
