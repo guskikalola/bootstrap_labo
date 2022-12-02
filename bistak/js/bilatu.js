@@ -112,10 +112,12 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 			unekoAkta.appendChild(elem);
 
 			if (child.classList.contains("tituluPonencia")) {
+				
 				// Elementua titulua bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-titulua");
+				elem.classList.add("fs-6", "text");
 				elem.innerText = child.innerText.replace(/(\[PDF\])/g, ""); // Ezabatu [PDF]
-
+				
 				// Aktaren gainean klikatzean tituluan zegoen onclick funtzio berdina egin baino lehio berri bat irikita
 				unekoAkta.addEventListener("click", () => {
 					let indiz = child.attributes["onclick"].nodeValue.replace("amosarFicha(", "").replace(")", "");
@@ -123,12 +125,13 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 					while (num.length < 4)
 						num = "0" + num;
 					var urlFicha = `bistak/informazioa.html?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
-
+					
 					Mezua.sendMezua("MKWINDOW", urlFicha);
 				});
 			} else {
 				// Elementua egileak bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-egileak");
+				elem.classList.add("fs-6", "text");
 			}
 		}
 		if (unekoAkta.childNodes.length >= 2) {
@@ -335,20 +338,18 @@ function estiloaEman() {
 	/////////////////////////////////////////////////////////////////////////
 	//Xabierrek egindako aldaketak
 	/////////////////////////////////////////////////////////////////////////
-	
+/*	
 	// gorputza div batean sartu panela osatzeko //PROBLEMAS
-	/*let gorputza = document.querySelector("body").innerHTML;
+	let gorputza = document.querySelector("body").innerHTML;
 	gorputza = "<div class='bg-white vh-90 m-3'>"+gorputza+"</div>";
-	document.querySelector("body").innerHTML = gorputza;*/
-
+	document.querySelector("body").innerHTML = gorputza;
+*/
 	// textua <p>-etan sartu eta font-size 6 jarri
 	let textua = document.querySelector(".aclaracionPeque").innerHTML;
 	textua = "<p class='fs-6 text'>"+textua+"</p>"
 	document.querySelector(".aclaracionPeque").innerHTML = textua;
 
 	document.querySelector("#caxaBuscar").classList.add("mt-1","mb-2");
-	document.querySelector(".akta-titulua").classList.add("fs-6", "text");
-	document.querySelector(".akta-egileak").classList.add("fs-6", "text");
 
 	//document.querySelector("#buscaor").classList.add("bg-white");
 	document.querySelector("#emaitzenLista").classList.add("bg-white");
