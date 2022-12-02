@@ -12,6 +12,7 @@ function main() {
     webgunea.id = "webgunea";
     aldatuBista(bista.replace("#",""));
     document.body.appendChild(webgunea);
+    localStorage.setItem("articulos", JSON.stringify(articulos));
 }
 
 function aldatuBista(bista) {
@@ -57,6 +58,5 @@ window.addEventListener("message", function (e) {
 $(window).on('hashchange', function() {
     let hash = window.location.hash || "hasiera";
     aldatuBista(hash.replace("#",""));
-  });
-
+});
 window.onload = main;

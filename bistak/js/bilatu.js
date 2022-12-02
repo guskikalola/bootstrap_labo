@@ -1,3 +1,4 @@
+import HistorialaKudeatzailea from "./historialaKudeatzailea.js";
 import Mezua from "./mezuak.js";
 
 const PROXY = "https://guskikalola.eus/cors/";
@@ -5,10 +6,11 @@ const EDICIONES_U = "https://aenui.org/actas/js/ediciones.js";
 const ARTICULOS_U = "https://aenui.org/actas/js/articulos.js";
 const RESUMENES_U = "https://aenui.org/actas/js/resumenes.js";
 const BASE = "aenui.org/actas";
-const WEBGUNEA_U = "/indice_i.html"
+const WEBGUNEA_U = "/indice_i.html";
+
+window.articulos = JSON.parse(localStorage.getItem("articulos"));
 
 function getLlistaResultaosTestuV2(str, estrictu) {
-	// document.querySelector("#filtroak");
 	let filtroak = {
 		"izenburua": document.getElementById("filtroIzenburua").checked,
 		"egile": document.getElementById("filtroEgilea").checked,
@@ -77,7 +79,7 @@ function kargatuScript(scripts_s) {
 					let elem = document.createElement("script");
 					elem.innerHTML = js;
 					elem.id = src;
-					document.head.appendChild(elem);
+					if(src.indexOf("articulos") == -1) document.head.appendChild(elem);
 					if (index == (i - 1)) {
 						setTimeout(() => {
 							res();
@@ -127,6 +129,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 					var urlFicha = `bistak/informazioa.html?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
 					
 					Mezua.sendMezua("MKWINDOW", urlFicha);
+					HistorialaKudeatzailea.getInstance().gordeHistorialan(indiz);
 				});
 			} else {
 				// Elementua egileak bada gehitu klasea hori adierazteko
