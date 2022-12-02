@@ -300,7 +300,7 @@ function txertatu() {
 
 function estiloaEman() {
 	for (let elem of document.querySelectorAll(".akta-titulua")) {
-		elem.classList.add("p-2"); // Eman banaketa pixka bat irakurtzeko errezago
+		elem.classList.add("p-2", "fs-5"); // Eman banaketa pixka bat irakurtzeko errezago
 	}
 	for (let elem of document.querySelectorAll(".akta-egileak")) {
 		elem.classList.add("p-2"); // Eman banaketa pixka bat irakurtzeko errezago
@@ -308,7 +308,7 @@ function estiloaEman() {
 
 	// Akta bakoitzari estiloa eman
 	for (let akta of document.querySelectorAll(".akta")) {
-		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark");
+		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark", "rounded-1");
 		akta.setAttribute("role", "button");
 	}
 
@@ -316,7 +316,7 @@ function estiloaEman() {
 
 	document.querySelector("body").classList.add("container");
 
-	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100", "mt-3", "bg-white");
+	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100", "mt-3", "bg-white", "rounded-top");
 	document.querySelector("#caxaBuscar").removeAttribute("size");
 	document.querySelector("#caxaBuscar").classList.add("w-100");
 
@@ -339,24 +339,133 @@ function estiloaEman() {
 	//Xabierrek egindako aldaketak
 	/////////////////////////////////////////////////////////////////////////
 /*	
-	// gorputza div batean sartu panela osatzeko //PROBLEMAS
+	// gorputza div batean sartu panela osatzeko PROBLEMAS
 	let gorputza = document.querySelector("body").innerHTML;
 	gorputza = "<div class='bg-white vh-90 m-3'>"+gorputza+"</div>";
 	document.querySelector("body").innerHTML = gorputza;
 */
 	// textua <p>-etan sartu eta font-size 6 jarri
-	let textua = document.querySelector(".aclaracionPeque").innerHTML;
-	textua = "<p class='fs-6 text'>"+textua+"</p>"
+	let textua = "<p class='fs-6 text'> Idatzi bilaketa-terminoak (izenburua eta egilea) edo sakatu 'Edizioak...' botoia edizio bateko ponentzia guztiak ikusteko.</p> <p class='fs-6 text'>Klikatu hitzaldiaren izenburuan eskuinean fitxa eta lotutako baliabideak ikusteko (laburpena, datu bibliografikoak, etab.) </p>";
 	document.querySelector(".aclaracionPeque").innerHTML = textua;
 
 	document.querySelector("#caxaBuscar").classList.add("mt-1","mb-2");
 
 	//document.querySelector("#buscaor").classList.add("bg-white");
 	document.querySelector("#emaitzenLista").classList.add("bg-white");
+
+
+	//TAULA FLEX bihurtu
+
+	//let taula = document.querySelector("#buscaor");
+	let irudia = document.getElementById("alrodiu").innerHTML;
+	let caxaBuscar = document.getElementById("caxaBuscar");
+	let drop = document.querySelector('#containerDropdownFiltroak');
+	//desagertarazi filtro originala
+//	document.querySelector('#containerDropdownFiltroak').innerHTML ="";
+
+
+	//let buscaorBerria2 = document.createElement('div') ;
+
+//--	let dropd =  '<div id="containerDropdownFiltroak" class="dropdown"><button id="containerDropdownMenuBtn" data-bs-toggle="dropdown" class="btn btn-primary dropdown-toggle">Filtroak</button><div id="containerDropdownMenuFiltroak" class="dropdown-menu"><div id="containerFiltroak" class="form-switch d-flex flex-column m-2"><div id="wrapperIzenburua"><input id="filtroIzenburua" type="checkbox" class="form-check-input"><label id="izenburuaLabel" for="filtroIzenburua">Izenburua</label></div><div id="wrapperEgilea"><input id="filtroEgilea" type="checkbox" class="form-check-input"><label id="egileaLabel" for="filtroEgilea">Egilea</label></div><div id="wrapperHitzgakoak"><input id="filtroHitzgakoak" type="checkbox" class="form-check-input"><label id="hitzgakoakLabel" for="filtroHitzgakoak">Hitz Gakoak</label></div><div id="wrapperGuztiak"><input id="filtroGuztiak" type="checkbox" class="form-check-input"><label id="guztiakLabel" for="filtroGuztiak">Guztiak</label></div></div></div></div>'
+
+
+	/*let buscaorBerria = "<div class='row d-flex justify-content-center'><h1 class='col-10 h1 text-center'>Actas de JENUI - Integral (β)</h1></div><div class='row'>"+ "<div class='col-2 d-flex justify-content-center'><a id='alrodiu' href='https://guskikalola.eus/cors/aenui.org/actas/pax/about.html'><img class='img-fluid' src='https://guskikalola.eus/cors/aenui.org/actas/img/logoAenui.png' style='border-style: none' width='70'></a></div>"
+	+"<div class='col-10 aclaracionPeque'><p class='fs-6 text'> Idatzi bilaketa-terminoak (izenburua eta egilea) edo sakatu 'Edizioak...' botoia edizio bateko ponentzia guztiak ikusteko.</p><p class='fs-6 text'>Klikatu hitzaldiaren izenburuan eskuinean fitxa eta lotutako baliabideak ikusteko (laburpena, datu bibliografikoak, etab.) </p></div><div class='row my-2'><div id='bat' class='col-2 d-flex flex-row-reverse'></div><div class='col-10 mt-1'><input id='caxaBuscar' type='text' autofocus='' onkeyup='amosarResultaosPorTestu(this.value, false)' class='w-100'></input></div>"
+	+"</div></div>";*/
+
+	/*let buscaorBerria = "<div class='row d-flex justify-content-center'><h1 class='col-10 h1 text-center'>Actas de JENUI - Integral (β)</h1></div><div class='row'>"+ "<div class='col-2 d-flex justify-content-center'><a id='alrodiu' href='https://guskikalola.eus/cors/aenui.org/actas/pax/about.html'><img class='img-fluid' src='https://guskikalola.eus/cors/aenui.org/actas/img/logoAenui.png' style='border-style: none' width='70'></a></div>"
+	+"<div class='col-10 aclaracionPeque'><p class='fs-6 text'> Idatzi bilaketa-terminoak (izenburua eta egilea) edo sakatu 'Edizioak...' botoia edizio bateko ponentzia guztiak ikusteko.</p><p class='fs-6 text'>Klikatu hitzaldiaren izenburuan eskuinean fitxa eta lotutako baliabideak ikusteko (laburpena, datu bibliografikoak, etab.) </p></div><div class='row my-2'><div id='bat' class='col-2 d-flex flex-row-reverse'></div><div id='inputGurasoa' class='col-10 mt-1'>"+caxaBuscar+"</div>"
+	+"</div></div>";
+
+	document.querySelector("#buscaor") = buscaorBerria;*/
 	
+/*	document.querySelector('#inputGurasoa').appendChild(caxaBuscar);
+
+	document.querySelector('#hemen').appendChild(drop);*/
+
+	///////////////////////////////////
+	// Berriz elementuekin
+	///////////////////////////////////
+
+	//lehen ilara
+	let lehenIlara = document.createElement('div');
+	lehenIlara.classList.add("row", "d-flex", "justify-content-center");
+	let lehenIlaraBarrukoa = document.createElement('h1');
+	lehenIlaraBarrukoa.classList.add("col-10","h1","text-center");
+	lehenIlaraBarrukoa.textContent = 'Actas de JENUI - Integral (β)';
+
+	lehenIlara.appendChild(lehenIlaraBarrukoa);
+
+	//bigarren ilara
+	let bigarrenIlara = document.createElement('div');
+	bigarrenIlara.classList.add("row");
+	let bigarrenIlaraBat = document.createElement('div');
+	bigarrenIlaraBat.classList.add("col-2", "d-flex", "justify-content-center");
+	let bigarrenIlaraBatEsteka = document.createElement('a');
+	bigarrenIlaraBatEsteka.id = 'alrodiu';
+	bigarrenIlaraBatEsteka.href ='https://guskikalola.eus/cors/aenui.org/actas/pax/about.html';
+	let bigarrenIlaraBatEstekaIrudia = document.createElement('img');
+	bigarrenIlaraBatEstekaIrudia.classList.add('img-fluid');
+	bigarrenIlaraBatEstekaIrudia.src = 'https://guskikalola.eus/cors/aenui.org/actas/img/logoAenui.png';
+	bigarrenIlaraBatEstekaIrudia.classList.add('img-fluid'); // ez dizkiot jarri
+	
+	bigarrenIlaraBatEsteka.appendChild(bigarrenIlaraBatEstekaIrudia);
+	bigarrenIlaraBat.appendChild(bigarrenIlaraBatEsteka);
+
+	let bigarrenIlaraBi = document.createElement('div');
+	bigarrenIlaraBi.classList.add('aclaracionPeque', 'col-10');
+	let bigarrenIlaraBiBat = document.createElement('p');
+	bigarrenIlaraBiBat.classList.add('fs-6', 'text');
+	bigarrenIlaraBiBat.textContent = 'Idatzi bilaketa-terminoak (izenburua eta egilea) edo sakatu "Edizioak..." botoiaedizio bateko ponentzia guztiak ikusteko.'
+	let bigarrenIlaraBiBi = document.createElement('p');
+	bigarrenIlaraBiBi.classList.add('fs-6', 'text');
+	bigarrenIlaraBiBi.textContent = 'Klikatu hitzaldiaren izenburuan eskuinean fitxa eta lotutako baliabideak ikusteko (laburpena, datu bibliografikoak, etab.)'
+
+	bigarrenIlaraBi.appendChild(bigarrenIlaraBiBat);
+	bigarrenIlaraBi.appendChild(bigarrenIlaraBiBi);
+	
+	bigarrenIlara.appendChild(bigarrenIlaraBat);
+	bigarrenIlara.appendChild(bigarrenIlaraBi);
+
+	// hirugarren ilara
+	let hirugarrenIlara = document.createElement('div');
+	hirugarrenIlara.classList.add('row', 'my-2');
+
+	let hirugarrenIlaraBat = document.createElement('div');
+	hirugarrenIlaraBat.classList.add('col-md-2', 'col-xs-6' , 'd-flex', 'flex-row-reverse');
+	hirugarrenIlaraBat.appendChild(drop);
+
+	let hirugarrenIlaraBi = document.createElement('div');
+	hirugarrenIlaraBi.classList.add('col-md-10', 'col-xs-6', 'mt-1');
+	hirugarrenIlaraBi.appendChild(caxaBuscar);
+
+	hirugarrenIlara.appendChild(hirugarrenIlaraBat);
+	hirugarrenIlara.appendChild(hirugarrenIlaraBi);
+
+	// Hay que eliminar primero lo que esta en el div buscaor???
+	document.querySelector('#buscaor').innerHTML="";
+
+	
+	document.querySelector('#buscaor').appendChild(lehenIlara);
+	document.querySelector('#buscaor').appendChild(bigarrenIlara);
+	document.querySelector('#buscaor').appendChild(hirugarrenIlara);
+
+	///////////////////////////////////
+	// Berriz elementuekin
+	///////////////////////////////////
+
+
+
+
+
+
+
+
+
 
 	/////////////////////////////////////////////////////////////////////////
-	//Xabierrek egindako aldaketak
+	//Xabierrek egindako aldaketakinput
+
 	/////////////////////////////////////////////////////////////////////////
 
 
@@ -390,8 +499,8 @@ fetch(PROXY + BASE + WEBGUNEA_U)
 
 		kargatuScript(scripts_s);
 		txertatu();
-
 		estiloaEman();
+
 	});
 
 window.addEventListener("load", () => {

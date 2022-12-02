@@ -1,3 +1,11 @@
 :root {
-    --background-var: linear-gradient(90deg, rgba(0, 0, 0, 0.98), rgba(42, 3, 63, 0.3)), brown;
+    --background-var: linear-gradient(180deg, rgba(255, 42, 42, 0.78), rgba(42, 3, 63, 0.3)), brown;
+   /* --background-var:  rgba(255, 42, 42, 0.7);*/
+
+}
+
+#emaitzen-lista{
+
+overflow-x: hidden !important;
+
 }
