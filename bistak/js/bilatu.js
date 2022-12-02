@@ -154,6 +154,13 @@ function izkutatu(elementua) {
 	wrapper.appendChild(elementua);
 }
 
+function wrap(elementua,id) {
+	let wrapper = document.createElement("div");
+	wrapper.id = id;
+	wrapper.appendChild(elementua);
+	return wrapper;
+}
+
 function txertatu() {
 	/* EDIZIOAK */
 	// Edizioen lista
@@ -204,22 +211,33 @@ function txertatu() {
 	})
 
 	/* BILAKETA FILTROAK */
+	let containerDropdownFiltroak = document.createElement("div");
+	let containerDropdownMenuFiltroak = document.createElement("div");
+	let containerDropdownMenuBtn = document.createElement("button");
 	let containerFiltroak = document.createElement("div");
 	let filtroEgilea = document.createElement("input"), egileaLabel = document.createElement("label");
 	let filtroIzenburua = document.createElement("input"), izenburuaLabel = document.createElement("label");
 	let filtroHitzgakoak = document.createElement("input"), hitzgakoakLabel = document.createElement("label");
 	let filtroGuztiak = document.createElement("input"), guztiakLabel = document.createElement("label");
 	
+	containerDropdownFiltroak.id = "containerDropdownFiltroak";
+	containerDropdownMenuFiltroak.id = "containerDropdownMenuFiltroak";
+	containerDropdownMenuBtn.id = "containerDropdownMenuBtn";
 	containerFiltroak.id = "containerFiltroak";
 	filtroEgilea.id = "filtroEgilea", egileaLabel.id ="egileaLabel";
 	filtroGuztiak.id = "filtroGuztiak", guztiakLabel.id ="guztiakLabel";
 	filtroHitzgakoak.id = "filtroHitzgakoak", hitzgakoakLabel.id = "hitzgakoakLabel";
 	filtroIzenburua.id = "filtroIzenburua", izenburuaLabel.id="izenburuaLabel";
 	
+
+
 	egileaLabel.htmlFor = "filtroEgilea"; egileaLabel.innerText = "Egilea";
 	izenburuaLabel.htmlFor = "filtroIzenburua"; izenburuaLabel.innerText = "Izenburua";
 	hitzgakoakLabel.htmlFor = "filtroHitzgakoak"; hitzgakoakLabel.innerText = "Hitz Gakoak";
 	guztiakLabel.htmlFor = "filtroGuztiak"; guztiakLabel.innerText = "Guztiak";
+	containerDropdownMenuBtn.innerText = "Filtroak";
+
+	containerDropdownMenuBtn.setAttribute("data-bs-toggle","dropdown");
 
 	filtroEgilea.type = "checkbox";
 	filtroGuztiak.type = "checkbox";
@@ -231,14 +249,22 @@ function txertatu() {
 	filtroHitzgakoak.addEventListener("click",filtroKudeatu);
 	filtroIzenburua.addEventListener("click",filtroKudeatu);
 	
-	containerFiltroak.appendChild(filtroIzenburua);
-	containerFiltroak.appendChild(izenburuaLabel);
-	containerFiltroak.appendChild(filtroEgilea);
-	containerFiltroak.appendChild(egileaLabel);
-	containerFiltroak.appendChild(filtroHitzgakoak);
-	containerFiltroak.appendChild(hitzgakoakLabel);
-	containerFiltroak.appendChild(filtroGuztiak);
-	containerFiltroak.appendChild(guztiakLabel);
+	containerDropdownMenuFiltroak.appendChild(containerFiltroak);
+	containerDropdownFiltroak.appendChild(containerDropdownMenuBtn);
+	containerDropdownFiltroak.appendChild(containerDropdownMenuFiltroak);
+
+	let wrapperEgilea = wrap(filtroEgilea,"wrapperEgilea");
+	let wrapperGuztiak = wrap(filtroGuztiak,"wrapperGuztiak");
+	let wrapperHitzgakoak = wrap(filtroHitzgakoak,"wrapperHitzgakoak");
+	let wrapperIzenburua = wrap(filtroIzenburua,"wrapperIzenburua");
+
+	containerFiltroak.appendChild(wrapperIzenburua); wrapperIzenburua.appendChild(izenburuaLabel);
+	containerFiltroak.appendChild(wrapperEgilea); wrapperEgilea.appendChild(egileaLabel);
+	containerFiltroak.appendChild(wrapperHitzgakoak); wrapperHitzgakoak.appendChild(hitzgakoakLabel);
+	containerFiltroak.appendChild(wrapperGuztiak); wrapperGuztiak.appendChild(guztiakLabel);
+
+	containerDropdownMenuFiltroak.onclick= (e) => e.stopPropagation();
+
 
 	filtroGuztiak.checked = true;
 
@@ -264,7 +290,7 @@ function txertatu() {
 
 	/* ELEMENTUAK GEHITU DOKUMENTURA */
 	// Bilaketa filtroak gehitu
-	document.body.appendChild(containerFiltroak);
+	document.body.appendChild(containerDropdownFiltroak);
 	// Emaitzen lista berria txertatu dokumentuan
 	document.body.appendChild(emaitzenListaBerria);
 }
@@ -292,11 +318,18 @@ function estiloaEman() {
 	document.querySelector("#caxaBuscar").classList.add("w-100");
 
 	/* FILTROAK */
+	document.querySelector("#containerDropdownFiltroak").classList.add("dropdown");
+	document.querySelector("#containerDropdownMenuBtn").classList.add("btn","btn-primary","dropdown-toggle");
+	document.querySelector("#containerDropdownMenuFiltroak").classList.add("dropdown-menu");
 	document.querySelector("#containerFiltroak").classList.add("form-switch","d-flex","flex-column","m-2");
 	document.querySelector("#filtroGuztiak").classList.add("form-check-input");
 	document.querySelector("#filtroEgilea").classList.add("form-check-input");
 	document.querySelector("#filtroIzenburua").classList.add("form-check-input");
 	document.querySelector("#filtroHitzgakoak").classList.add("form-check-input");
+	// document.querySelector("#wrapperGuztiak").classList.add("dropdown-item");
+	// document.querySelector("#wrapperEgilea").classList.add("dropdown-item");
+	// document.querySelector("#wrapperIzenburua").classList.add("dropdown-item");
+	// document.querySelector("#wrapperHitzgakoak").classList.add("dropdown-item");
 }
 
 fetch(PROXY + BASE + WEBGUNEA_U)
