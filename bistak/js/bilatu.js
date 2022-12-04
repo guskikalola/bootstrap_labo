@@ -110,6 +110,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 			//XABIERREN ALDAKETA
 			////////////////////////////////////////
 			let elemP = document.createElement("p");
+			elemP.classList.add("ps-4");
 			elemP.innerHTML = child.innerHTML;
 			elem.appendChild(elemP)
 			///////////////////////////////////////
@@ -123,7 +124,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 				
 				// Elementua titulua bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-titulua");
-				elem.classList.add("fs-6", "text");
+				elem.classList.add("fs-5", "text","fw-bold", "text-center");
 				elem.innerText = child.innerText.replace(/(\[PDF\])/g, ""); // Ezabatu [PDF]
 				
 				// Aktaren gainean klikatzean tituluan zegoen onclick funtzio berdina egin baino lehio berri bat irikita
@@ -139,7 +140,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 			} else {
 				// Elementua egileak bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-egileak");
-				elem.classList.add("fs-6", "text");
+				elem.classList.add("fs-5", "text", "pl-4");
 			}
 		}
 		if (unekoAkta.childNodes.length >= 2) {
@@ -151,6 +152,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 	}
 
 	for (let akta of aktak) {
+		akta.classList.add( "col-10", "mx-auto");
 		emaitzenContainer.appendChild(akta);
 	}
 
@@ -189,6 +191,7 @@ function txertatu() {
 	// Emaitzen lista berria sortu
 	let emaitzenListaBerria = document.createElement("div");
 	emaitzenListaBerria.id = "emaitzenLista";
+	emaitzenLista.classList.add("rounded-bottom")
 	// Emaitza berriak gehitzen direnean detektatu
 	let observerConfig = { attributes: false, childList: true, subtree: false };
 	let observer = new MutationObserver((mutationList, observer) => {
@@ -339,12 +342,12 @@ function txertatu() {
 	bigarrenIlaraBat.appendChild(bigarrenIlaraBatEsteka);
 
 	let bigarrenIlaraBi = document.createElement('div');
-	bigarrenIlaraBi.classList.add('aclaracionPeque', "col-xs-112", "col-md-10");
+	bigarrenIlaraBi.classList.add('aclaracionPeque', "col-xs-12", "col-md-10");
 	let bigarrenIlaraBiBat = document.createElement('p');
-	bigarrenIlaraBiBat.classList.add('fs-5', 'text', "pt-2", "pb-1");
+	bigarrenIlaraBiBat.classList.add('h-3', 'text', "pt-2", "pb-1", "pe-2");
 	bigarrenIlaraBiBat.textContent = 'Idatzi bilaketa-terminoak (izenburua eta egilea) edo sakatu "Edizioak..." botoiaedizio bateko ponentzia guztiak ikusteko.'
 	let bigarrenIlaraBiBi = document.createElement('p');
-	bigarrenIlaraBiBi.classList.add('fs-5', 'text', "pb-2");
+	bigarrenIlaraBiBi.classList.add('h-4', 'text', "pb-2","pe-2");
 	bigarrenIlaraBiBi.textContent = 'Klikatu hitzaldiaren izenburuan eskuinean fitxa eta lotutako baliabideak ikusteko (laburpena, datu bibliografikoak, etab.)'
 
 	bigarrenIlaraBi.appendChild(bigarrenIlaraBiBat);
@@ -362,7 +365,8 @@ function txertatu() {
 	hirugarrenIlaraBat.appendChild(drop);
 
 	let hirugarrenIlaraBi = document.createElement('div');
-	hirugarrenIlaraBi.classList.add('col-md-10', 'col-xs-6');
+	hirugarrenIlaraBi.classList.add('col-md-9', 'col-xs-6');
+	//caxaBuscar.child.classList.add("col-10");
 	hirugarrenIlaraBi.appendChild(caxaBuscar);
 
 	hirugarrenIlara.appendChild(hirugarrenIlaraBat);
@@ -427,16 +431,9 @@ function estiloaEman() {
 	document.querySelector("#caxaBuscar").classList.add("mt-1","mb-2");
 
 	//document.querySelector("#buscaor").classList.add("bg-white");
-	document.querySelector("#emaitzenLista").classList.add("bg-white");
+	document.querySelector("#emaitzenLista").classList.add("bg-white", "container");
 
-
-	
-
-
-
-
-
-
+	//document.querySelectorAll(".akta").classList.add("col-xs-11 col-md-9", "mx-auto", "shadow")
 
 
 	/////////////////////////////////////////////////////////////////////////
