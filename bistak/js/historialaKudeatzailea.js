@@ -10,7 +10,6 @@ export default class HistorialaKudeatzailea {
     }
 
     constructor() {
-        this._memoria = new Set();
     }
 
     /**
@@ -35,5 +34,15 @@ export default class HistorialaKudeatzailea {
             }
         }
         else throw new Error("Ez da exititzen id hori duen artikulurik. Id: " + id);
+    }
+
+    /**
+     * Historialatik ezabatzen du emandako akta id-a
+     * @param {number} id Ezabatu nahi den aktaren id-a
+     */
+    ezabatuHistorialatik(id) {
+        let historiala = this.getHistoriala();
+        historiala = historiala.filter(item => item != id);
+        localStorage.setItem("historiala", JSON.stringify(historiala));
     }
 }
