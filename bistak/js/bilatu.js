@@ -9,6 +9,7 @@ const BASE = "aenui.org/actas";
 const WEBGUNEA_U = "/indice_i.html";
 
 window.articulos = JSON.parse(localStorage.getItem("articulos"));
+window.ediciones = JSON.parse(localStorage.getItem("ediciones"));
 
 function getLlistaResultaosTestuV2(str, estrictu) {
 	let filtroak = {
@@ -27,14 +28,14 @@ function getLlistaResultaosTestuV2(str, estrictu) {
 
 		if ((filtroak.filtro_guztiak || filtroak.izenburua) && articulos[i][2].toLowerCase().indexOf(str) != -1) {
 			sartu = true;
-		} else if ((filtroak.filtro_guztiak ||filtroak.egile) && articulos[i][3].toLowerCase().indexOf(str) != -1) {
+		} else if ((filtroak.filtro_guztiak || filtroak.egile) && articulos[i][3].toLowerCase().indexOf(str) != -1) {
 			sartu = true;
-		} else if (filtroak.filtro_guztiak ||filtroak.hitz_gakoa) {
+		} else if (filtroak.filtro_guztiak || filtroak.hitz_gakoa) {
 			let hitzGakoPosibleGuztiak = articulos[i].join("").toLowerCase();
 			let hitzGakoak = str.split(" ");
 			let guztiakDitu = true;
-			for(let hitzGakoa of hitzGakoak) {
-				if(hitzGakoPosibleGuztiak.indexOf(hitzGakoa) == -1) {
+			for (let hitzGakoa of hitzGakoak) {
+				if (hitzGakoPosibleGuztiak.indexOf(hitzGakoa) == -1) {
 					guztiakDitu = false;
 					break;
 				}
@@ -79,7 +80,7 @@ function kargatuScript(scripts_s) {
 					let elem = document.createElement("script");
 					elem.innerHTML = js;
 					elem.id = src;
-					if(src.indexOf("articulos") == -1) document.head.appendChild(elem);
+					if (src.indexOf("articulos") == -1 && src.indexOf("ediciones") == -1) document.head.appendChild(elem);
 					if (index == (i - 1)) {
 						setTimeout(() => {
 							res();
@@ -114,12 +115,12 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 			unekoAkta.appendChild(elem);
 
 			if (child.classList.contains("tituluPonencia")) {
-				
+
 				// Elementua titulua bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-titulua");
 				elem.classList.add("fs-6", "text");
 				elem.innerText = child.innerText.replace(/(\[PDF\])/g, ""); // Ezabatu [PDF]
-				
+
 				// Aktaren gainean klikatzean tituluan zegoen onclick funtzio berdina egin baino lehio berri bat irikita
 				unekoAkta.addEventListener("click", () => {
 					let indiz = child.attributes["onclick"].nodeValue.replace("amosarFicha(", "").replace(")", "");
@@ -127,7 +128,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 					while (num.length < 4)
 						num = "0" + num;
 					var urlFicha = `bistak/informazioa.html?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
-					
+
 					Mezua.sendMezua("MKWINDOW", urlFicha);
 					HistorialaKudeatzailea.getInstance().gordeHistorialan(indiz);
 				});
@@ -160,7 +161,7 @@ function izkutatu(elementua) {
 	wrapper.appendChild(elementua);
 }
 
-function wrap(elementua,id) {
+function wrap(elementua, id) {
 	let wrapper = document.createElement("div");
 	wrapper.id = id;
 	wrapper.appendChild(elementua);
@@ -170,7 +171,33 @@ function wrap(elementua,id) {
 function txertatu() {
 	/* EDIZIOAK */
 	// Edizioen lista
-	let edizioak = document.querySelector("#botonesEdiciones").childNodes;
+	let edizioakContainer = document.createElement("div"); edizioakContainer.id = "edizioakContainer";
+	window.ediciones.forEach((edizioa,edizioaId) => {
+		let urtea = edizioa[0];
+		let portada = PROXY + BASE + `/img/portada_JENUI_${urtea}.jpg`;
+
+		let edizioaContainer = document.createElement("div"); edizioa.id = "edizioa-"+urtea; 
+		edizioaContainer.classList.add("edizioa");
+
+		edizioaContainer.addEventListener("click", function(e) {
+			eval(`amosarResultaosPorEdicion("${edizioaId}")`);
+		});
+
+		let urteaElem = document.createElement("p");
+		urteaElem.classList.add("edizoa-urtea");
+		urteaElem.innerText = urtea;
+
+		let portadaContainer = document.createElement("div"); 
+		portadaContainer.classList.add("edizioa-portada-container");
+		let portadaElem = document.createElement("img");
+		portadaElem.src = portada;
+		portadaElem.classList.add("edizioa-portada");
+
+		edizioaContainer.appendChild(urteaElem);
+		edizioaContainer.appendChild(portadaElem);
+
+		edizioakContainer.appendChild(edizioaContainer);
+	});
 
 	// Izkutatu edizioak
 	izkutatu(document.querySelector("#botonesEdiciones"));
@@ -225,16 +252,16 @@ function txertatu() {
 	let filtroIzenburua = document.createElement("input"), izenburuaLabel = document.createElement("label");
 	let filtroHitzgakoak = document.createElement("input"), hitzgakoakLabel = document.createElement("label");
 	let filtroGuztiak = document.createElement("input"), guztiakLabel = document.createElement("label");
-	
+
 	containerDropdownFiltroak.id = "containerDropdownFiltroak";
 	containerDropdownMenuFiltroak.id = "containerDropdownMenuFiltroak";
 	containerDropdownMenuBtn.id = "containerDropdownMenuBtn";
 	containerFiltroak.id = "containerFiltroak";
-	filtroEgilea.id = "filtroEgilea", egileaLabel.id ="egileaLabel";
-	filtroGuztiak.id = "filtroGuztiak", guztiakLabel.id ="guztiakLabel";
+	filtroEgilea.id = "filtroEgilea", egileaLabel.id = "egileaLabel";
+	filtroGuztiak.id = "filtroGuztiak", guztiakLabel.id = "guztiakLabel";
 	filtroHitzgakoak.id = "filtroHitzgakoak", hitzgakoakLabel.id = "hitzgakoakLabel";
-	filtroIzenburua.id = "filtroIzenburua", izenburuaLabel.id="izenburuaLabel";
-	
+	filtroIzenburua.id = "filtroIzenburua", izenburuaLabel.id = "izenburuaLabel";
+
 
 
 	egileaLabel.htmlFor = "filtroEgilea"; egileaLabel.innerText = "Egilea";
@@ -243,44 +270,44 @@ function txertatu() {
 	guztiakLabel.htmlFor = "filtroGuztiak"; guztiakLabel.innerText = "Guztiak";
 	containerDropdownMenuBtn.innerText = "Filtroak";
 
-	containerDropdownMenuBtn.setAttribute("data-bs-toggle","dropdown");
+	containerDropdownMenuBtn.setAttribute("data-bs-toggle", "dropdown");
 
 	filtroEgilea.type = "checkbox";
 	filtroGuztiak.type = "checkbox";
 	filtroHitzgakoak.type = "checkbox";
 	filtroIzenburua.type = "checkbox";
-	
-	filtroEgilea.addEventListener("click",filtroKudeatu);
-	filtroGuztiak.addEventListener("click",filtroKudeatu);
-	filtroHitzgakoak.addEventListener("click",filtroKudeatu);
-	filtroIzenburua.addEventListener("click",filtroKudeatu);
-	
+
+	filtroEgilea.addEventListener("click", filtroKudeatu);
+	filtroGuztiak.addEventListener("click", filtroKudeatu);
+	filtroHitzgakoak.addEventListener("click", filtroKudeatu);
+	filtroIzenburua.addEventListener("click", filtroKudeatu);
+
 	containerDropdownMenuFiltroak.appendChild(containerFiltroak);
 	containerDropdownFiltroak.appendChild(containerDropdownMenuBtn);
 	containerDropdownFiltroak.appendChild(containerDropdownMenuFiltroak);
 
-	let wrapperEgilea = wrap(filtroEgilea,"wrapperEgilea");
-	let wrapperGuztiak = wrap(filtroGuztiak,"wrapperGuztiak");
-	let wrapperHitzgakoak = wrap(filtroHitzgakoak,"wrapperHitzgakoak");
-	let wrapperIzenburua = wrap(filtroIzenburua,"wrapperIzenburua");
+	let wrapperEgilea = wrap(filtroEgilea, "wrapperEgilea");
+	let wrapperGuztiak = wrap(filtroGuztiak, "wrapperGuztiak");
+	let wrapperHitzgakoak = wrap(filtroHitzgakoak, "wrapperHitzgakoak");
+	let wrapperIzenburua = wrap(filtroIzenburua, "wrapperIzenburua");
 
 	containerFiltroak.appendChild(wrapperIzenburua); wrapperIzenburua.appendChild(izenburuaLabel);
 	containerFiltroak.appendChild(wrapperEgilea); wrapperEgilea.appendChild(egileaLabel);
 	containerFiltroak.appendChild(wrapperHitzgakoak); wrapperHitzgakoak.appendChild(hitzgakoakLabel);
 	containerFiltroak.appendChild(wrapperGuztiak); wrapperGuztiak.appendChild(guztiakLabel);
 
-	containerDropdownMenuFiltroak.onclick= (e) => e.stopPropagation();
+	containerDropdownMenuFiltroak.onclick = (e) => e.stopPropagation();
 
 
 	filtroGuztiak.checked = true;
 
 	function filtroKudeatu(e) {
 		let target = e.target;
-		if(target.id != "filtroGuztiak") {
-			if(target.checked) {
+		if (target.id != "filtroGuztiak") {
+			if (target.checked) {
 				filtroGuztiak.checked = false;
 			} else {
-				if(!filtroEgilea.checked && !filtroIzenburua.checked && !filtroHitzgakoak.checked) {
+				if (!filtroEgilea.checked && !filtroIzenburua.checked && !filtroHitzgakoak.checked) {
 					filtroGuztiak.checked = true;
 				}
 			}
@@ -291,12 +318,14 @@ function txertatu() {
 			filtroHitzgakoak.checked = false;
 		}
 
-		amosarResultaosPorTestuV2(bilaketaInput.value,false);
+		amosarResultaosPorTestuV2(bilaketaInput.value, false);
 	}
 
 	/* ELEMENTUAK GEHITU DOKUMENTURA */
 	// Bilaketa filtroak gehitu
 	document.body.appendChild(containerDropdownFiltroak);
+	// Edizioak gehitu
+	document.body.appendChild(edizioakContainer)
 	// Emaitzen lista berria txertatu dokumentuan
 	document.body.appendChild(emaitzenListaBerria);
 }
@@ -325,9 +354,9 @@ function estiloaEman() {
 
 	/* FILTROAK */
 	document.querySelector("#containerDropdownFiltroak").classList.add("dropdown");
-	document.querySelector("#containerDropdownMenuBtn").classList.add("btn","btn-primary","dropdown-toggle");
+	document.querySelector("#containerDropdownMenuBtn").classList.add("btn", "btn-primary", "dropdown-toggle");
 	document.querySelector("#containerDropdownMenuFiltroak").classList.add("dropdown-menu");
-	document.querySelector("#containerFiltroak").classList.add("form-switch","d-flex","flex-column","m-2");
+	document.querySelector("#containerFiltroak").classList.add("form-switch", "d-flex", "flex-column", "m-2");
 	document.querySelector("#filtroGuztiak").classList.add("form-check-input");
 	document.querySelector("#filtroEgilea").classList.add("form-check-input");
 	document.querySelector("#filtroIzenburua").classList.add("form-check-input");
@@ -341,28 +370,47 @@ function estiloaEman() {
 	/////////////////////////////////////////////////////////////////////////
 	//Xabierrek egindako aldaketak
 	/////////////////////////////////////////////////////////////////////////
-/*	
-	// gorputza div batean sartu panela osatzeko //PROBLEMAS
-	let gorputza = document.querySelector("body").innerHTML;
-	gorputza = "<div class='bg-white vh-90 m-3'>"+gorputza+"</div>";
-	document.querySelector("body").innerHTML = gorputza;
-*/
+	/*	
+		// gorputza div batean sartu panela osatzeko //PROBLEMAS
+		let gorputza = document.querySelector("body").innerHTML;
+		gorputza = "<div class='bg-white vh-90 m-3'>"+gorputza+"</div>";
+		document.querySelector("body").innerHTML = gorputza;
+	*/
 	// textua <p>-etan sartu eta font-size 6 jarri
 	let textua = document.querySelector(".aclaracionPeque").innerHTML;
-	textua = "<p class='fs-6 text'>"+textua+"</p>"
+	textua = "<p class='fs-6 text'>" + textua + "</p>"
 	document.querySelector(".aclaracionPeque").innerHTML = textua;
 
-	document.querySelector("#caxaBuscar").classList.add("mt-1","mb-2");
+	document.querySelector("#caxaBuscar").classList.add("mt-1", "mb-2");
 
 	//document.querySelector("#buscaor").classList.add("bg-white");
 	document.querySelector("#emaitzenLista").classList.add("bg-white");
-	
+
 
 	/////////////////////////////////////////////////////////////////////////
 	//Xabierrek egindako aldaketak
 	/////////////////////////////////////////////////////////////////////////
 
 
+	// Edizioak
+	for (let elem of document.querySelectorAll(".edizioa")) {
+		elem.classList.add("d-flex","mx-2","flex-column","align-items-center","justify-content-center","text-center");
+		elem.classList.add("btn")
+		elem.classList.add("bg-secondary");
+	}
+	for (let elem of document.querySelectorAll(".edizioa-portada-container")) {
+		
+	}
+	for (let elem of document.querySelectorAll(".edizioa-portada")) {
+		elem.width = 125;
+		elem.height = 125;
+		elem.classList.add("img")
+	}
+	for (let elem of document.querySelectorAll(".edizioa-urtea")) {
+		
+	}
+	
+	document.querySelector("#edizioakContainer").classList.add("d-flex","flex-row","bg-white")
 }
 
 fetch(PROXY + BASE + WEBGUNEA_U)

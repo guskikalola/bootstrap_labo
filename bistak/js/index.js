@@ -12,7 +12,10 @@ function main() {
     webgunea.id = "webgunea";
     aldatuBista(bista.replace("#",""));
     document.body.appendChild(webgunea);
+    
     localStorage.setItem("articulos", JSON.stringify(articulos));
+    
+    localStorage.setItem("ediciones", JSON.stringify(ediciones));
 }
 
 function aldatuBista(bista) {
