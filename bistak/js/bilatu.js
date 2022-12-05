@@ -109,7 +109,16 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 
 			// Sortu elementuaren edukia gordetzeko div
 			let elem = document.createElement("div");
-			elem.innerHTML = child.innerHTML;
+			///////////////////////////////////////
+			//XABIERREN ALDAKETA
+			////////////////////////////////////////
+			let elemP = document.createElement("p");
+			elemP.classList.add("ps-4");
+			elemP.innerHTML = child.innerHTML;
+			elem.appendChild(elemP)
+			///////////////////////////////////////
+			//XABIERREN ALDAKETA
+			////////////////////////////////////////
 
 			// Uneko aktari gehitu elementua
 			unekoAkta.appendChild(elem);
@@ -118,7 +127,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 
 				// Elementua titulua bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-titulua");
-				elem.classList.add("fs-6", "text");
+				elem.classList.add("fs-5", "text", "fw-bold", "text-center");
 				elem.innerText = child.innerText.replace(/(\[PDF\])/g, ""); // Ezabatu [PDF]
 
 				// Aktaren gainean klikatzean tituluan zegoen onclick funtzio berdina egin baino lehio berri bat irikita
@@ -135,7 +144,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 			} else {
 				// Elementua egileak bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-egileak");
-				elem.classList.add("fs-6", "text");
+				elem.classList.add("fs-5", "text", "pl-4");
 			}
 		}
 		if (unekoAkta.childNodes.length >= 2) {
@@ -147,6 +156,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 	}
 
 	for (let akta of aktak) {
+		akta.classList.add("col-10", "mx-auto");
 		emaitzenContainer.appendChild(akta);
 	}
 
@@ -172,14 +182,14 @@ function txertatu() {
 	/* EDIZIOAK */
 	// Edizioen lista
 	let edizioakContainer = document.createElement("div"); edizioakContainer.id = "edizioakContainer";
-	window.ediciones.forEach((edizioa,edizioaId) => {
+	window.ediciones.forEach((edizioa, edizioaId) => {
 		let urtea = edizioa[0];
 		let portada = PROXY + BASE + `/img/portada_JENUI_${urtea}.jpg`;
 
-		let edizioaContainer = document.createElement("div"); edizioa.id = "edizioa-"+urtea; 
+		let edizioaContainer = document.createElement("div"); edizioa.id = "edizioa-" + urtea;
 		edizioaContainer.classList.add("edizioa");
 
-		edizioaContainer.addEventListener("click", function(e) {
+		edizioaContainer.addEventListener("click", function (e) {
 			eval(`amosarResultaosPorEdicion("${edizioaId}")`);
 		});
 
@@ -187,7 +197,7 @@ function txertatu() {
 		urteaElem.classList.add("edizoa-urtea");
 		urteaElem.innerText = urtea;
 
-		let portadaContainer = document.createElement("div"); 
+		let portadaContainer = document.createElement("div");
 		portadaContainer.classList.add("edizioa-portada-container");
 		let portadaElem = document.createElement("img");
 		portadaElem.src = portada;
@@ -211,6 +221,7 @@ function txertatu() {
 	// Emaitzen lista berria sortu
 	let emaitzenListaBerria = document.createElement("div");
 	emaitzenListaBerria.id = "emaitzenLista";
+	emaitzenLista.classList.add("rounded-bottom")
 	// Emaitza berriak gehitzen direnean detektatu
 	let observerConfig = { attributes: false, childList: true, subtree: false };
 	let observer = new MutationObserver((mutationList, observer) => {
@@ -226,13 +237,6 @@ function txertatu() {
 		}
 	});
 	observer.observe(emaitzenLista, observerConfig);
-
-	/* LOGOA */
-	let logoa = document.querySelector("#alrodiu");
-	logoa.href = "";
-	logoa.addEventListener("click", () => {
-		Mezua.sendMezua("CHVIEW", "hasiera");
-	});
 
 	/* BILAKETA INPUT-A */
 	let bilaketaInput = document.querySelector("#caxaBuscar");
@@ -328,11 +332,90 @@ function txertatu() {
 	document.body.appendChild(edizioakContainer)
 	// Emaitzen lista berria txertatu dokumentuan
 	document.body.appendChild(emaitzenListaBerria);
+
+
+
+	/*BILAKETA PANELARI EGITURA BERRIA EMAN RESPONSIVE IZATEKO*/
+	/*Osagaiak hartu eta div-etan sartu bootstrap klaseekin konbinatuz taula bat erabili beharrean*/
+
+	let caxaBuscar = document.getElementById("caxaBuscar");
+	let drop = document.querySelector('#containerDropdownFiltroak');
+
+	//lehen ilara
+	let lehenIlara = document.createElement('div');
+	lehenIlara.classList.add("row", "d-flex", "justify-content-center");
+	let lehenIlaraBarrukoa = document.createElement('h1');
+	lehenIlaraBarrukoa.classList.add("col-10", "h1", "text-center", "py-2");
+	lehenIlaraBarrukoa.textContent = 'Actas de JENUI - Integral (β)';
+
+	lehenIlara.appendChild(lehenIlaraBarrukoa);
+
+	//bigarren ilara
+	let bigarrenIlara = document.createElement('div');
+	bigarrenIlara.classList.add("row");
+	let bigarrenIlaraBat = document.createElement('div');
+	bigarrenIlaraBat.classList.add("col-xs-12", "col-md-2", "d-flex", "justify-content-center");
+	let bigarrenIlaraBatEsteka = document.createElement('a');
+	bigarrenIlaraBatEsteka.id = 'alrodiu';
+	let bigarrenIlaraBatEstekaIrudia = document.createElement('img');
+	bigarrenIlaraBatEstekaIrudia.classList.add('img-fluid');
+	bigarrenIlaraBatEstekaIrudia.src = 'https://guskikalola.eus/cors/aenui.org/actas/img/logoAenui.png';
+	bigarrenIlaraBatEstekaIrudia.classList.add('img-fluid'); // ez dizkiot jarri
+
+	bigarrenIlaraBatEsteka.appendChild(bigarrenIlaraBatEstekaIrudia);
+	bigarrenIlaraBat.appendChild(bigarrenIlaraBatEsteka);
+
+	let bigarrenIlaraBi = document.createElement('div');
+	bigarrenIlaraBi.classList.add('aclaracionPeque', "col-xs-12", "col-md-10");
+	let bigarrenIlaraBiBat = document.createElement('p');
+	bigarrenIlaraBiBat.classList.add('h-3', 'text', "pt-2", "pb-1", "pe-2");
+	bigarrenIlaraBiBat.textContent = 'Idatzi bilaketa-terminoak (izenburua eta egilea) edo sakatu "Edizioak..." botoiaedizio bateko ponentzia guztiak ikusteko.'
+	let bigarrenIlaraBiBi = document.createElement('p');
+	bigarrenIlaraBiBi.classList.add('h-4', 'text', "pb-2", "pe-2");
+	bigarrenIlaraBiBi.textContent = 'Klikatu hitzaldiaren izenburuan eskuinean fitxa eta lotutako baliabideak ikusteko (laburpena, datu bibliografikoak, etab.)'
+
+	bigarrenIlaraBi.appendChild(bigarrenIlaraBiBat);
+	bigarrenIlaraBi.appendChild(bigarrenIlaraBiBi);
+
+	bigarrenIlara.appendChild(bigarrenIlaraBat);
+	bigarrenIlara.appendChild(bigarrenIlaraBi);
+
+	// hirugarren ilara
+	let hirugarrenIlara = document.createElement('div');
+	hirugarrenIlara.classList.add('row', 'py-2');
+
+	let hirugarrenIlaraBat = document.createElement('div');
+	hirugarrenIlaraBat.classList.add('col-md-2', 'col-xs-6', 'd-flex', 'flex-row-reverse');
+	hirugarrenIlaraBat.appendChild(drop);
+
+	let hirugarrenIlaraBi = document.createElement('div');
+	hirugarrenIlaraBi.classList.add('col-md-9', 'col-xs-6');
+	//caxaBuscar.child.classList.add("col-10");
+	hirugarrenIlaraBi.appendChild(caxaBuscar);
+
+	hirugarrenIlara.appendChild(hirugarrenIlaraBat);
+	hirugarrenIlara.appendChild(hirugarrenIlaraBi);
+
+	document.querySelector('#buscaor').innerHTML = "";
+
+	/* LOGOA */
+	let logoa = bigarrenIlaraBatEsteka;
+	logoa.href = "";
+	console.log(logoa)
+	logoa.addEventListener("click", () => {
+		Mezua.sendMezua("CHVIEW", "hasiera");
+	});
+
+
+	document.querySelector('#buscaor').appendChild(lehenIlara);
+	document.querySelector('#buscaor').appendChild(bigarrenIlara);
+	document.querySelector('#buscaor').appendChild(hirugarrenIlara);
+
 }
 
 function estiloaEman() {
 	for (let elem of document.querySelectorAll(".akta-titulua")) {
-		elem.classList.add("p-2"); // Eman banaketa pixka bat irakurtzeko errezago
+		elem.classList.add("p-2", "fs-5"); // Eman banaketa pixka bat irakurtzeko errezago
 	}
 	for (let elem of document.querySelectorAll(".akta-egileak")) {
 		elem.classList.add("p-2"); // Eman banaketa pixka bat irakurtzeko errezago
@@ -340,7 +423,7 @@ function estiloaEman() {
 
 	// Akta bakoitzari estiloa eman
 	for (let akta of document.querySelectorAll(".akta")) {
-		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark");
+		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark", "rounded-1");
 		akta.setAttribute("role", "button");
 	}
 
@@ -348,7 +431,7 @@ function estiloaEman() {
 
 	document.querySelector("body").classList.add("container");
 
-	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100", "mt-3", "bg-white");
+	document.querySelector("#buscaor").classList.add("text-break", "container", "mw-100", "mt-3", "bg-white", "rounded-top");
 	document.querySelector("#caxaBuscar").removeAttribute("size");
 	document.querySelector("#caxaBuscar").classList.add("w-100");
 
@@ -371,35 +454,34 @@ function estiloaEman() {
 	//Xabierrek egindako aldaketak
 	/////////////////////////////////////////////////////////////////////////
 	/*	
-		// gorputza div batean sartu panela osatzeko //PROBLEMAS
+		// gorputza div batean sartu panela osatzeko PROBLEMAS
 		let gorputza = document.querySelector("body").innerHTML;
 		gorputza = "<div class='bg-white vh-90 m-3'>"+gorputza+"</div>";
 		document.querySelector("body").innerHTML = gorputza;
 	*/
-	// textua <p>-etan sartu eta font-size 6 jarri
-	let textua = document.querySelector(".aclaracionPeque").innerHTML;
-	textua = "<p class='fs-6 text'>" + textua + "</p>"
-	document.querySelector(".aclaracionPeque").innerHTML = textua;
 
 	document.querySelector("#caxaBuscar").classList.add("mt-1", "mb-2");
 
 	//document.querySelector("#buscaor").classList.add("bg-white");
-	document.querySelector("#emaitzenLista").classList.add("bg-white");
+	document.querySelector("#emaitzenLista").classList.add("bg-white", "container", "rounded-bottom");
+
+	//document.querySelectorAll(".akta").classList.add("col-xs-11 col-md-9", "mx-auto", "shadow")
 
 
 	/////////////////////////////////////////////////////////////////////////
-	//Xabierrek egindako aldaketak
+	//Xabierrek egindako aldaketakinput
+
 	/////////////////////////////////////////////////////////////////////////
 
 
 	// Edizioak
 	for (let elem of document.querySelectorAll(".edizioa")) {
-		elem.classList.add("d-flex","mx-2","flex-column","align-items-center","justify-content-center","text-center");
+		elem.classList.add("d-flex", "mx-2", "flex-column", "align-items-center", "justify-content-center", "text-center");
 		elem.classList.add("btn")
 		elem.classList.add("bg-secondary");
 	}
 	for (let elem of document.querySelectorAll(".edizioa-portada-container")) {
-		
+
 	}
 	for (let elem of document.querySelectorAll(".edizioa-portada")) {
 		elem.width = 125;
@@ -407,10 +489,10 @@ function estiloaEman() {
 		elem.classList.add("img")
 	}
 	for (let elem of document.querySelectorAll(".edizioa-urtea")) {
-		
+
 	}
-	
-	document.querySelector("#edizioakContainer").classList.add("d-flex","flex-row","bg-white")
+
+	document.querySelector("#edizioakContainer").classList.add("d-flex", "flex-row", "bg-white")
 }
 
 fetch(PROXY + BASE + WEBGUNEA_U)
@@ -441,8 +523,8 @@ fetch(PROXY + BASE + WEBGUNEA_U)
 
 		kargatuScript(scripts_s);
 		txertatu();
-
 		estiloaEman();
+
 	});
 
 window.addEventListener("load", () => {

@@ -1,5 +1,5 @@
 #emaitzenLista {
-    overflow: scroll !important;
+    overflow-y: scroll !important;
     max-height: 60vh;
 }
 
@@ -7,7 +7,9 @@
 
    /* background-color: #F2CC8F !important;
     background-color: #81B29A !important;*/
-    background-color: #F4F1DE !important;
+   /* background-color: #F4F1DE !important;*/
+   background-color: #fffbdb!important;
+
 
 }
 
