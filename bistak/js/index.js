@@ -8,7 +8,7 @@ let webgunea;
 
 function main() {
     let bista = window.location.hash || "hasiera";
-    webgunea = document.createElement("iframe");
+    webgunea = document.getElementById("webgunea");
     webgunea.id = "webgunea";
     aldatuBista(bista.replace("#",""));
     document.body.appendChild(webgunea);
