@@ -6,8 +6,13 @@ window.addEventListener("load", () => {
     console.log("about us")
     Mezua.sendMezua("LOADED","");
     let but = document.getElementById("aboutBistara")
+    let but2 = document.getElementById("hasieraBistara")
     but.addEventListener("click", () => {
-        console.log("Kaixo")
+        console.log("About us bistara joan")
         Mezua.sendMezua("CHVIEW","about");
+    });
+    but2.addEventListener("click", () => {
+        console.log("Hasierara")
+        Mezua.sendMezua("CHVIEW","hasiera");
     });
 });
