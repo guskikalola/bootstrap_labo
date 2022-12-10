@@ -29,7 +29,7 @@ function webguneaKargatuta(data) {
     document.title = webgunea.contentDocument.title;
 }
 
-window.onload = main;
+window.addEventListener("load", main);
 
 // webgune iframe-tik mezu bat jasotzean kudeatu
 window.addEventListener("message", function (e) {

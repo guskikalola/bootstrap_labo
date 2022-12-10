@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
     <meta charset="UTF-8">
@@ -17,20 +17,30 @@
         #gmail {
             font-size: 14px;
         }
+
+
+        @media (min-width: 992px) {
+            #content {
+                height: 100% !important;
+            }
+        }
     </style>
 </head>
 
-<body style="height: 100%;">
-    <div class="container-fluid text-center bg-light d-flex align-items-center h-100" style="background-color: #E07A5F !important">
+<body style="height: 100% !important;background-color: #E07A5F !important;">
+    <div class="container-fluid text-center d-flex align-items-center" id="content">
         <div class="mx-auto border shadow pt-5 pb-5 col-md-6 col-sm-10" style="background-color: white !important;">
             <div class="about-section">
                 <h1>About Us</h1>
-                <p class="fs-7 px-2 pt-1 pb-2 mx-auto">UPV/EHU-ko Ingenieria Informatika graduko 3.mailako ikasleak gara, eta webgune honen bitartez boostrap tresna landu dugu,
-                    existitzen den webgune baten gainean aplikatuz: 
-                <a href="https://aenui.org/actas/indice_i.html">https://aenui.org/actas/indice_i.html</a>
+                <p class="fs-7 px-2 pt-1 pb-2 mx-auto">UPV/EHU-ko Ingenieria Informatika graduko 3.mailako ikasleak
+                    gara, eta webgune honen bitartez boostrap tresna landu dugu,
+                    existitzen den webgune baten gainean aplikatuz:
+                    <a href="https://aenui.org/actas/indice_i.html">https://aenui.org/actas/indice_i.html</a>
                 </p>
-                <p class="fs-7 px-2 pt-1 pb-2 mx-auto" >Pertsona eta konputagailuen elkarrekintza (PKE) ikasgaian ikasitakoa baliatuz, eta boostrap tresna erabiliz, aurreko
-                    webgunetik abiatuz, diseinu egokiagoa garatu dugu, funtzionalitate berri batzuekin, responsive diseinu batekin, erabilgarria
+                <p class="fs-7 px-2 pt-1 pb-2 mx-auto">Pertsona eta konputagailuen elkarrekintza (PKE) ikasgaian
+                    ikasitakoa baliatuz, eta boostrap tresna erabiliz, aurreko
+                    webgunetik abiatuz, diseinu egokiagoa garatu dugu, funtzionalitate berri batzuekin, responsive
+                    diseinu batekin, erabilgarria
                     izateko bai ordenagailuetan, bai mugikorretan ere.
                 </p>
             </div>
