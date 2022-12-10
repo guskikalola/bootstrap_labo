@@ -11,7 +11,7 @@ function main() {
     webgunea = document.getElementById("webgunea");
     webgunea.id = "webgunea";
     aldatuBista(bista.replace("#",""));
-    document.body.appendChild(webgunea);
+    // document.body.appendChild(webgunea);
 }
 
 function aldatuBista(bista) {
@@ -28,6 +28,8 @@ function webguneaKargatuta(data) {
     console.log("title",webgunea.contentDocument.title)
     document.title = webgunea.contentDocument.title;
 }
+
+window.onload = main;
 
 // webgune iframe-tik mezu bat jasotzean kudeatu
 window.addEventListener("message", function (e) {
@@ -59,4 +61,3 @@ $(window).on('hashchange', function() {
     aldatuBista(hash.replace("#",""));
   });
 
-window.onload = main;
