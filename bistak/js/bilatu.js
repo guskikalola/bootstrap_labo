@@ -463,7 +463,7 @@ function estiloaEman() {
 	document.querySelector("#caxaBuscar").classList.add("mt-1", "mb-2");
 
 	//document.querySelector("#buscaor").classList.add("bg-white");
-	document.querySelector("#emaitzenLista").classList.add("bg-white", "container", "rounded-bottom");
+	document.querySelector("#emaitzenLista").classList.add("bg-white", "container", "rounded-bottom", "mb-3");
 
 	//document.querySelectorAll(".akta").classList.add("col-xs-11 col-md-9", "mx-auto", "shadow")
 

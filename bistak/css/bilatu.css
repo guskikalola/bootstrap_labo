@@ -1,6 +1,6 @@
 #emaitzenLista {
     overflow-y: scroll !important;
-    max-height: 60vh;
+    height: 30vh !important;
 }
 
 .akta{
