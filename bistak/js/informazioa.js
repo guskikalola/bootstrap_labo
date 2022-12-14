@@ -136,14 +136,6 @@ function estiloaEman() {
     document.querySelector('#contenido_solapa_bibtex').classList.add('px-2');
     
 
-
-
-
-
-
-
-    
-
 }
 
 
