@@ -3,6 +3,47 @@ import Mezua from "./mezuak.js"
 const PROXY = "https://guskikalola.eus/cors/";
 const BASE = "aenui.org/actas";
 
+function amosarSolapa(codigu) {
+    var iden = "solapa_" + codigu;
+    document.getElementById(iden).classList.add("solapaEscoyia");
+    document.getElementById(iden).classList.remove("solapaNormal");
+    document.getElementById("contenido_" + iden).style.display = "block";
+    // Na solapa de PDF el PDF incrustau nun se ve si nun se fai un resize.
+    // Esto ye una chapuza pa forzar a que lo faiga y ca vez que se pinche na solapa cambie...
+    if (codigu == "pdf") {
+        var ancho = document.getElementById("contenido_" + iden).style.width;
+        if (ancho == "99%")
+            document.getElementById("contenido_" + iden).style.width = "98%";
+        else
+            document.getElementById("contenido_" + iden).style.width = "99%";
+    }
+
+    if (iden != "solapa_resumen") {
+        document.getElementById("solapa_resumen").classList.add("solapaNormal");
+        document.getElementById(iden).classList.remove("solapaEscoyia");
+
+        document.getElementById("contenido_solapa_resumen").style.display = "none";
+    }
+    if (iden != "solapa_pdf") {
+        document.getElementById("solapa_pdf").classList.add("solapaNormal");
+        document.getElementById(iden).classList.remove("solapaEscoyia");
+
+        document.getElementById("contenido_solapa_pdf").style.display = "none";
+    }
+    if (iden != "solapa_info") {
+        document.getElementById("solapa_info").classList.add("solapaNormal");
+        document.getElementById(iden).classList.remove("solapaEscoyia");
+
+        document.getElementById("contenido_solapa_info").style.display = "none";
+    }
+    if (iden != "solapa_bibtex") {
+        document.getElementById("solapa_bibtex").classList.add("solapaNormal");
+        document.getElementById(iden).classList.remove("solapaEscoyia");
+
+        document.getElementById("contenido_solapa_bibtex").style.display = "none";
+    }
+}
+
 function kargatuScript(scripts_s) {
     new Promise((res, rej) => {
         Array.from(scripts_s).filter(item => item.src).forEach((script, index, scripts) => {
@@ -18,7 +59,8 @@ function kargatuScript(scripts_s) {
                     if (index == (i - 1)) {
                         setTimeout(() => {
                             res();
-                            eval("amosarSolapa('resumen');");
+                            console.log("DONE")
+                            amosarSolapa('resumen');
                         }, 500);
                     }
                 })
@@ -27,63 +69,63 @@ function kargatuScript(scripts_s) {
 }
 
 function izkutatu(elementua) {
-	let wrapper = document.createElement("div");
-	wrapper.style = "display:none;";
-	elementua.parentNode.insertBefore(wrapper, elementua);
-	wrapper.appendChild(elementua);
+    let wrapper = document.createElement("div");
+    wrapper.style = "display:none;";
+    elementua.parentNode.insertBefore(wrapper, elementua);
+    wrapper.appendChild(elementua);
 }
 
 function estiloaEman() {
-   // izkutatu(document.querySelector(".botoneraSolapes"))
-    document.querySelector(".ficha").classList.add("border", "my-4","mx-5", "bg-white");
-    document.querySelector(".tituloFicha").classList.add("my-4","mx-5", "text-center");
-    document.querySelector(".autoresFicha").classList.add("my-4","mx-5", "text-center");
-    document.querySelector("#contenido_solapa_resumen").classList.add("py-3","px-2", "col-10", "mx-auto", "fs-6");
+    // izkutatu(document.querySelector(".botoneraSolapes"))
+    document.querySelector(".ficha").classList.add("border", "my-4", "mx-5", "bg-white");
+    document.querySelector(".tituloFicha").classList.add("my-4", "mx-5", "text-center");
+    document.querySelector(".autoresFicha").classList.add("my-4", "mx-5", "text-center");
+    document.querySelector("#contenido_solapa_resumen").classList.add("py-3", "px-2", "col-10", "mx-auto", "fs-6");
     document.querySelector(".datosCongresoFicha").classList.add("text-center", "fw-bold", "py-2", "bg-white", "text-body", "fs-3", "my-2");
 
     let botoiBarra = document.createElement('div');
-    botoiBarra.classList.add('botoiBarra','d-flex','justify-content-around', 'py-2', 'flex-wrap');
+    botoiBarra.classList.add('botoiBarra', 'd-flex', 'justify-content-around', 'py-2', 'flex-wrap');
 
     // Id originala jartzen bazaie (komentatutakoak), klase bat ezartzen zaie botoie eta estiloa izorratzen du
     // BibTEX-en textua berez irudia da baina textu bezala jarri dugu
 
 
     let solapaResumen = document.createElement('button');
-    //solapaResumen.id = 'solapa_resumen';
-    solapaResumen.onclick = function(){amosarSolapa('resumen')};
+    solapaResumen.id = 'solapa_resumen';
+    solapaResumen.onclick = function () { amosarSolapa('resumen') };
     solapaResumen.innerText = 'Laburpena';
-    solapaResumen.classList.add('btn','btn-primary');
+    solapaResumen.classList.add('btn', 'btn-primary');
 
     let solapaInfo = document.createElement('button');
-   // solapaInfo.id = 'solapa_info';
-    solapaInfo.onclick = function(){amosarSolapa('info')};
+    solapaInfo.id = 'solapa_info';
+    solapaInfo.onclick = function () { amosarSolapa('info') };
     solapaInfo.innerText = 'Info';
-    solapaInfo.classList.add('btn','btn-primary');
+    solapaInfo.classList.add('btn', 'btn-primary');
 
 
     let solapaPDF = document.createElement('button');
-   // solapaPDF.id = 'solapa_pdf';
-    solapaPDF.onclick = function(){amosarSolapa('pdf')};
+    solapaPDF.id = 'solapa_pdf';
+    solapaPDF.onclick = function () { amosarSolapa('pdf') };
     solapaPDF.innerText = 'PDF';
-    solapaPDF.classList.add('btn','btn-primary');
+    solapaPDF.classList.add('btn', 'btn-primary');
 
     let solapaBibtex = document.createElement('button');
-   // solapaBibtex.id = 'solapa_bibtex';
-    solapaBibtex.onclick = function(){amosarSolapa('bibtex')};
+    solapaBibtex.id = 'solapa_bibtex';
+    solapaBibtex.onclick = function () { amosarSolapa('bibtex') };
     solapaBibtex.innerText = 'BIBTEX';
-   // solapaBibtex.style = "background: url('https://guskikalola.eus/cors/aenui.org/actas/img/logoBibTeX.png') no-repeat; background-size: 100%;"
-    solapaBibtex.classList.add('btn','btn-primary');
+    // solapaBibtex.style = "background: url('https://guskikalola.eus/cors/aenui.org/actas/img/logoBibTeX.png') no-repeat; background-size: 100%;"
+    solapaBibtex.classList.add('btn', 'btn-primary');
 
     botoiBarra.appendChild(solapaResumen);
     botoiBarra.appendChild(solapaInfo);
     botoiBarra.appendChild(solapaPDF);
     botoiBarra.appendChild(solapaBibtex);
 
-    document.querySelector('.autoresFicha').insertAdjacentElement('afterend',botoiBarra);
+    document.querySelector('.autoresFicha').insertAdjacentElement('afterend', botoiBarra);
     //Taula originala desagertarazteko
     document.querySelector('.botoneraSolapes').style = 'display:none';
-   /* let taula = document.querySelector('.botoneraSolapes');
-    taula.parentNode.removeChild(taula);*/
+    /* let taula = document.querySelector('.botoneraSolapes');
+     taula.parentNode.removeChild(taula);*/
 
 
     document.querySelector('#contenido_solapa_info').classList.add('container');
@@ -94,39 +136,39 @@ function estiloaEman() {
     let linka;
     //taula lortu
     for (const child of contenidoInfo.children) {
-        if (child.tagName == 'TABLE'){
+        if (child.tagName == 'TABLE') {
 
-            taula  = child;
+            taula = child;
             taula.parentNode.removeChild(taula);
 
         }
-        if (child.tagName == 'A'){
+        if (child.tagName == 'A') {
             linka = child;
             linka.parentNode.removeChild(linka);
         }
-      }
+    }
 
     let gelaxkak = taula.querySelectorAll('td');
 
     let divIrudia = document.createElement('div')
-    divIrudia.classList.add('col-md-4','col-xs-12')
+    divIrudia.classList.add('col-md-4', 'col-xs-12')
     let irudia = gelaxkak[0].querySelector('img');
     divIrudia.appendChild(irudia);
 
     let divTextua = document.createElement('div');
-    divTextua.classList.add('col-md-6','col-xs-12');
+    divTextua.classList.add('col-md-6', 'col-xs-12');
 
     let textua = document.createElement('p');
     divTextua.innerHTML = gelaxkak[1].innerHTML;
 
-   // console.log(gelaxkak[1].innerText);
+    // console.log(gelaxkak[1].innerText);
     divTextua.appendChild(textua);
 
     document.querySelector('.contenidoInfo').appendChild(divIrudia);
     document.querySelector('.contenidoInfo').appendChild(divTextua);
-    if(linka){
+    if (linka) {
 
-      document.querySelector('.contenidoInfo').appendChild(linka);
+        document.querySelector('.contenidoInfo').appendChild(linka);
     }
 
     //PDF atala
@@ -134,7 +176,6 @@ function estiloaEman() {
 
     // BITBEX atala
     document.querySelector('#contenido_solapa_bibtex').classList.add('px-2');
-    
 
 
 
@@ -142,7 +183,8 @@ function estiloaEman() {
 
 
 
-    
+
+
 
 }
 
@@ -175,14 +217,16 @@ function main(url) {
             let link_s = html.querySelectorAll("link");
 
             for (let link of link_s) {
-                // if (!link.relList.contains("stylesheet"))
+                if (!link.relList.contains("stylesheet"))
                     document.querySelector("head").appendChild(link)
             }
 
-            kargatuScript(scripts_s);
+            //kargatuScript(scripts_s);
             //txertatu();
 
             estiloaEman();
+            
+            amosarSolapa('resumen');
         });
 }
 

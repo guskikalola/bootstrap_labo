@@ -8,13 +8,12 @@ let webgunea;
 
 function main() {
     let bista = window.location.hash || "hasiera";
-    webgunea = document.createElement("iframe");
+    webgunea = document.getElementById("webgunea");
     webgunea.id = "webgunea";
-    aldatuBista(bista.replace("#",""));
-    document.body.appendChild(webgunea);
-    
+    aldatuBista(bista.replace("#", ""));
+
     localStorage.setItem("articulos", JSON.stringify(articulos));
-    
+
     localStorage.setItem("ediciones", JSON.stringify(ediciones));
 }
 
@@ -29,9 +28,11 @@ function aldatuBista(bista) {
 }
 
 function webguneaKargatuta(data) {
-    console.log("title",webgunea.contentDocument.title)
+    console.log("title", webgunea.contentDocument.title)
     document.title = webgunea.contentDocument.title;
 }
+
+window.addEventListener("load", main);
 
 // webgune iframe-tik mezu bat jasotzean kudeatu
 window.addEventListener("message", function (e) {
@@ -58,8 +59,8 @@ window.addEventListener("message", function (e) {
     }
 });
 
-$(window).on('hashchange', function() {
+$(window).on('hashchange', function () {
     let hash = window.location.hash || "hasiera";
-    aldatuBista(hash.replace("#",""));
+    aldatuBista(hash.replace("#", ""));
 });
-window.onload = main;
+

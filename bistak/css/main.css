@@ -26,3 +26,15 @@ background-color: #faef93 !important;
 background-color: #fffbdb!important;
 
 }
+
+.nav {
+    height: 50px;
+    width: 100%;
+    background-color: #4d4d4d;
+    position: relative;
+    z-index: 1;
+}
+  
+.nav>.nav-btn {
+    display: none;
+}
