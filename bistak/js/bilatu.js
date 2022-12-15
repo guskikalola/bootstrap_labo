@@ -486,7 +486,7 @@ function estiloaEman() {
 	for (let elem of document.querySelectorAll(".edizioa-portada")) {
 		elem.width = 125;
 		elem.height = 125;
-		elem.classList.add("img")
+		elem.classList.add("img","img-fluid")
 	}
 	for (let elem of document.querySelectorAll(".edizioa-urtea")) {
 
