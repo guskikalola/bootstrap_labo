@@ -156,7 +156,7 @@ function estiloaEman() {
     divIrudia.appendChild(irudia);
 
     let divTextua = document.createElement('div');
-    divTextua.classList.add('col-md-6', 'col-xs-12');
+    divTextua.classList.add('col-md-6', 'col-xs-12','text-break');
 
     let textua = document.createElement('p');
     divTextua.innerHTML = gelaxkak[1].innerHTML;
