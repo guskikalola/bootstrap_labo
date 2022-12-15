@@ -1,6 +1,8 @@
 import Mezua from "./mezuak.js";
 import bistak from "./bistak.js";
 
+const URTE_BAT = 31557600000;
+
 /**
  * @type {HTMLIFrameElement}
  */
@@ -11,10 +13,12 @@ function main() {
     webgunea = document.getElementById("webgunea");
     webgunea.id = "webgunea";
     aldatuBista(bista.replace("#", ""));
-
-    localStorage.setItem("articulos", JSON.stringify(articulos));
-
-    localStorage.setItem("ediciones", JSON.stringify(ediciones));
+    
+    let azkenAldaketa = new Date(localStorage.getItem("lastUpdate"));
+    let diff = Date.now() - azkenAldaketa.getTime();
+    if ( diff >= URTE_BAT ) {
+        eguneratuDatuak();
+    }
 }
 
 function aldatuBista(bista) {
@@ -30,6 +34,12 @@ function aldatuBista(bista) {
 function webguneaKargatuta(data) {
     console.log("title", webgunea.contentDocument.title)
     document.title = webgunea.contentDocument.title;
+}
+
+function eguneratuDatuak() {
+    localStorage.setItem("articulos", JSON.stringify(articulos));
+    localStorage.setItem("lastUpdate", Date.now());
+    localStorage.setItem("ediciones", JSON.stringify(ediciones));
 }
 
 window.addEventListener("load", main);

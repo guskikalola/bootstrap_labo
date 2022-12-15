@@ -521,6 +521,8 @@ fetch(PROXY + BASE + WEBGUNEA_U)
 				document.querySelector("head").appendChild(link)
 		}
 
+		scripts_s = Array.from(scripts_s.values()).filter(item => (item.src.indexOf("articulos") == -1 && item.src.indexOf("ediciones") == -1))
+		console.log(scripts_s)
 		kargatuScript(scripts_s);
 		txertatu();
 		estiloaEman();
