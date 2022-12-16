@@ -22,10 +22,15 @@ function main() {
 }
 
 function aldatuBista(bista) {
-    if (!Object.keys(bistak).includes(bista)) {
-        console.error("Bista hori ez da exisitzen.", bista);
+    let params = bista.split("?");
+    
+    let izena = params[0];
+    let query = "?"+params[1];
+
+    if (!Object.keys(bistak).includes(izena)) {
+        console.error("Bista hori ez da exisitzen.", izena);
     } else {
-        let url = "bistak/" + bistak[bista];
+        let url = "bistak/" + bistak[izena] + query;
         console.log("Aldatzen bista.", url);
         webgunea.src = url;
     }
