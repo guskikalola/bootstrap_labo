@@ -142,7 +142,7 @@ function estiloaEman() {
 		elem.classList.add("p-2","fs-6","text"); // Eman banaketa pixka bat irakurtzeko errezago
 	}
     for (let akta of document.querySelectorAll(".akta")) {
-		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark","d-flex","align-items-center","flex-column");
+		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark","d-flex","align-items-center","flex-column","w-100");
 		akta.setAttribute("role", "button");
 	}
     for(let elem of document.querySelectorAll(".akta-container-ezabatu")) {
