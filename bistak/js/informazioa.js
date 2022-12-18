@@ -85,7 +85,7 @@ function estiloaEman() {
 
     let botoiBarra = document.createElement('div');
     botoiBarra.classList.add('botoiBarra', 'd-flex', 'justify-content-around', 'py-2', 'flex-wrap');
-
+    botoiBarra.id = 'botoiBarra';
     // Id originala jartzen bazaie (komentatutakoak), klase bat ezartzen zaie botoie eta estiloa izorratzen du
     // BibTEX-en textua berez irudia da baina textu bezala jarri dugu
 
@@ -122,6 +122,10 @@ function estiloaEman() {
     botoiBarra.appendChild(solapaBibtex);
 
     document.querySelector('.autoresFicha').insertAdjacentElement('afterend', botoiBarra);
+    let separadorea = document.createElement('hr');
+    separadorea.classList.add('w-75', 'mx-auto');
+    document.querySelector('#botoiBarra').insertAdjacentElement('afterend', separadorea);
+
     //Taula originala desagertarazteko
     document.querySelector('.botoneraSolapes').style = 'display:none';
     /* let taula = document.querySelector('.botoneraSolapes');
