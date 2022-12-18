@@ -14,5 +14,5 @@
 }
 
 #edizioakContainer {
-    overflow: scroll !important;
+    overflow-x: scroll !important;
 }

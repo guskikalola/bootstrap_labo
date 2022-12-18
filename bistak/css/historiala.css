@@ -1,4 +1,4 @@
 #historiala {
-    overflow: scroll !important;
+    overflow-y: scroll !important;
     max-height: 60vh;
 }
