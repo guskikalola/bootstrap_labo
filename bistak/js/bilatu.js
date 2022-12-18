@@ -136,9 +136,9 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 					var num = "" + indiz;
 					while (num.length < 4)
 						num = "0" + num;
-					var urlFicha = `bistak/informazioa.html?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
+					var urlFicha = `informazioa?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
 
-					Mezua.sendMezua("MKWINDOW", urlFicha);
+					Mezua.sendMezua("CHVIEW", urlFicha);
 					HistorialaKudeatzailea.getInstance().gordeHistorialan(indiz);
 				});
 			} else {

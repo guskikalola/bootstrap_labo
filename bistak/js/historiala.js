@@ -86,9 +86,9 @@ function kargatuHistoriala() {
             var num = "" + indiz;
             while (num.length < 4)
                 num = "0" + num;
-            var urlFicha = `bistak/informazioa.html?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
+            var urlFicha = `informazioa?url=https://${BASE}/fichas/` + articulos[indiz][0] + "_" + articulos[indiz][1] + "_" + num + ".html";
 
-            Mezua.sendMezua("MKWINDOW", urlFicha);
+            Mezua.sendMezua("CHVIEW", urlFicha);
             HistorialaKudeatzailea.getInstance().gordeHistorialan(indiz);
         });
 
@@ -142,7 +142,7 @@ function estiloaEman() {
 		elem.classList.add("p-2","fs-6","text"); // Eman banaketa pixka bat irakurtzeko errezago
 	}
     for (let akta of document.querySelectorAll(".akta")) {
-		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark","d-flex","align-items-center","flex-column","w-100");
+		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark","d-flex","align-items-center","flex-column");
 		akta.setAttribute("role", "button");
 	}
     for(let elem of document.querySelectorAll(".akta-container-ezabatu")) {
