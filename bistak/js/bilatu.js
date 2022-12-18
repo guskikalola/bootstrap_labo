@@ -127,7 +127,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 
 				// Elementua titulua bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-titulua");
-				elem.classList.add("fs-5", "text", "fw-bold", "text-center");
+				elem.classList.add("fs-5", "fw-bold", "text-center");
 				elem.innerText = child.innerText.replace(/(\[PDF\])/g, ""); // Ezabatu [PDF]
 
 				// Aktaren gainean klikatzean tituluan zegoen onclick funtzio berdina egin baino lehio berri bat irikita
@@ -144,7 +144,7 @@ function emaitzaBerriakKudeatu(emaitzenLista, emaitzenContainer) {
 			} else {
 				// Elementua egileak bada gehitu klasea hori adierazteko
 				elem.classList.add("akta-egileak");
-				elem.classList.add("fs-5", "text", "pl-4");
+				elem.classList.add("fs-5", "pl-4");
 			}
 		}
 		if (unekoAkta.childNodes.length >= 2) {
@@ -398,6 +398,14 @@ function txertatu() {
 
 	document.querySelector('#buscaor').innerHTML = "";
 
+	// laugarren ilara
+	/*let edizioak = document.querySelector('#edizioakContainer');
+	//document.querySelector('#edizioakContainer').innerHTML='';
+	let laugarrenIlara = document.createElement('div');
+	laugarrenIlara.appendChild(edizioak);
+	laugarrenIlara.classList.add('row');*/
+
+
 	/* LOGOA */
 	let logoa = bigarrenIlaraBatEsteka;
 	logoa.href = "";
@@ -410,6 +418,8 @@ function txertatu() {
 	document.querySelector('#buscaor').appendChild(lehenIlara);
 	document.querySelector('#buscaor').appendChild(bigarrenIlara);
 	document.querySelector('#buscaor').appendChild(hirugarrenIlara);
+	//document.querySelector('#buscaor').appendChild(laugarrenIlara);
+
 
 }
 

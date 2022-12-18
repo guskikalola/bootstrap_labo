@@ -136,13 +136,13 @@ function kargatuHistoriala() {
 
 function estiloaEman() {
 	for (let elem of document.querySelectorAll(".akta-titulua")) {
-		elem.classList.add("p-2","fs-6","text"); // Eman banaketa pixka bat irakurtzeko errezago
+		elem.classList.add("p-2","fs-6", "fw-bold"); // Eman banaketa pixka bat irakurtzeko errezago
 	}
 	for (let elem of document.querySelectorAll(".akta-egileak")) {
-		elem.classList.add("p-2","fs-6","text"); // Eman banaketa pixka bat irakurtzeko errezago
+		elem.classList.add("p-2","fs-6"); // Eman banaketa pixka bat irakurtzeko errezago
 	}
     for (let akta of document.querySelectorAll(".akta")) {
-		akta.classList.add("border", "p-2", "m-2", "text-break", "bg-primary", "border", "border-dark","d-flex","align-items-center","flex-column");
+		akta.classList.add("border", "border-dark", "rounded-1", "p-2", "m-2", "text-break", "d-flex","align-items-center","flex-column","w-100");
 		akta.setAttribute("role", "button");
 	}
     for(let elem of document.querySelectorAll(".akta-container-ezabatu")) {

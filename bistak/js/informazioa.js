@@ -77,7 +77,7 @@ function izkutatu(elementua) {
 
 function estiloaEman() {
     // izkutatu(document.querySelector(".botoneraSolapes"))
-    document.querySelector(".ficha").classList.add("border", "my-4", "mx-5", "bg-white");
+    document.querySelector(".ficha").classList.add("border", "my-4", "mx-5", "bg-white","rounded");
     document.querySelector(".tituloFicha").classList.add("my-4", "mx-5", "text-center");
     document.querySelector(".autoresFicha").classList.add("my-4", "mx-5", "text-center");
     document.querySelector("#contenido_solapa_resumen").classList.add("py-3", "px-2", "col-10", "mx-auto", "fs-6");
