@@ -123,7 +123,7 @@ function estiloaEman() {
 
     document.querySelector('.autoresFicha').insertAdjacentElement('afterend', botoiBarra);
     let separadorea = document.createElement('hr');
-    separadorea.classList.add('w-75', 'mx-auto');
+    separadorea.classList.add('w-75', 'mx-auto', 'border-body');
     document.querySelector('#botoiBarra').insertAdjacentElement('afterend', separadorea);
 
     //Taula originala desagertarazteko

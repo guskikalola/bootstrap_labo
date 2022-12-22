@@ -488,7 +488,11 @@ function estiloaEman() {
 	for (let elem of document.querySelectorAll(".edizioa")) {
 		elem.classList.add("d-flex", "mx-2", "flex-column", "align-items-center", "justify-content-center", "text-center");
 		elem.classList.add("btn")
-		elem.classList.add("bg-secondary");
+		elem.classList.add("border", "border-dark")
+		elem.classList.add("fw-bold")
+
+
+		//elem.classList.add("bg-secondary");
 	}
 	for (let elem of document.querySelectorAll(".edizioa-portada-container")) {
 
